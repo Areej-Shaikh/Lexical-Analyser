@@ -3,7 +3,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
         try {
-            FileReader reader = new FileReader("src/test.txt");
+            FileReader reader = new FileReader("test.txt");
             Yylex lexer = new Yylex(reader);
             SymbolTable  symbolTable  = new SymbolTable();
             ErrorHandler errorHandler = new ErrorHandler();
