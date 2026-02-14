@@ -1,0 +1,12 @@
+Int x = 42;
+float y = 3.14;
+boolean flag = true;
+if (x > 10 && flag) {
+    y = y * 2;
+}
+x++;
+y--;
+"Hello, world!"
+'a'
+## this is a comment
+@@ndnj

@@ -17,5 +17,10 @@ public enum TokenType {
     SINGLE_LINE_COMMENT,
     
     // Special
-    EOF
+    EOF,
+
+  BOOLEAN_EXPRESSION,
+
+  ERROR
+
 }
