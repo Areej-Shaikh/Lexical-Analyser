@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.*;  
 
 public class ManualScanner {
     private final String sourceCode;
@@ -6,17 +6,14 @@ public class ManualScanner {
     private int line;
     private int column;
     private SymbolTable symbolTable;
-    
-    // Statistics tracking
-    private int totalTokens;
-    private int totalCommentsRemoved;
-    private int totalLinesProcessed;
-    private Map<String, Integer> tokenTypeCount;
 
-    // DFA States
-    private enum State {
-        START, DIGIT, DOT, FLOAT, LETTER, IDENTIFIER, OPERATOR, PUNCTUATOR
-    }
+    // DFA States for different token types
+    private enum CommentState { START, HASH1, IN_COMMENT }
+    private enum BooleanState { START, T, TR, TRU, R, U, E, F, FA, FAL, FALS }
+    private enum IdentifierState { START, LETTER, IN_IDENTIFIER }
+    private enum NumericState { START, DIGIT, DOT, DECIMAL, EXPONENT, EXP_SIGN, EXP_DIGIT }
+    private enum OperatorState { START, SINGLE, MULTI }
+    private enum PunctuatorState { START, PUNCTUATOR }
 
     public ManualScanner(String sourceCode) {
         this.sourceCode = sourceCode;
@@ -24,22 +21,6 @@ public class ManualScanner {
         this.line = 1;
         this.column = 1;
         this.symbolTable = new SymbolTable();
-        this.totalTokens = 0;
-        this.totalCommentsRemoved = 0;
-        this.totalLinesProcessed = countLines(sourceCode);
-        this.tokenTypeCount = new HashMap<>();
-        initializeTokenTypeCount();
-    }
-
-    private void initializeTokenTypeCount() {
-        for (TokenType type : TokenType.values()) {
-            tokenTypeCount.put(type.toString(), 0);
-        }
-    }
-
-    // Helper: Count total lines in source code
-    private int countLines(String code) {
-        return (int) code.chars().filter(ch -> ch == '\n').count() + 1;
     }
 
     public List<Token> scan() {
@@ -63,28 +44,23 @@ public class ManualScanner {
             Token token;
 
             // Priority order: check each token type (Longest Match Principle)
+            // Multi-char operators checked before single-char (longest match)
+            // Floats handled within numeric matching DFA
             if ((token = matchSingleLineComment()) != null) {
-                totalCommentsRemoved++;
-                // Comments are filtered out
+                tokens.add(token);
             } else if ((token = matchBooleanLiteral()) != null) {
                 tokens.add(token);
-                recordToken(token);
             } else if ((token = matchNumericLiteral()) != null) {
                 tokens.add(token);
-                recordToken(token);
             } else if ((token = matchIdentifier()) != null) {
                 symbolTable.insert(token.getLexeme(), "IDENTIFIER", line);
                 tokens.add(token);
-                recordToken(token);
             } else if ((token = matchMultiCharOperator()) != null) {
                 tokens.add(token);
-                recordToken(token);
             } else if ((token = matchSingleCharOperator()) != null) {
                 tokens.add(token);
-                recordToken(token);
             } else if ((token = matchPunctuator()) != null) {
                 tokens.add(token);
-                recordToken(token);
             } else {
                 // No match → error
                 System.err.println("Invalid Token at line " + line + ", column " + column + ": '" + currentChar + "'");
@@ -96,240 +72,267 @@ public class ManualScanner {
         return tokens;
     }
 
-    // Record token statistics
-    private void recordToken(Token token) {
-        totalTokens++;
-        String tokenType = token.getType().toString();
-        tokenTypeCount.put(tokenType, tokenTypeCount.getOrDefault(tokenType, 0) + 1);
-    }
-
-    // Display statistics
-    public void displayStatistics() {
-        System.out.println("\n" + "=".repeat(70));
-        System.out.println("SCANNER STATISTICS");
-        System.out.println("=".repeat(70));
-        
-        // Total tokens
-        System.out.println("\nTotal Tokens:               " + totalTokens);
-        
-        // Comments removed
-        System.out.println("Total Comments Removed:     " + totalCommentsRemoved);
-        
-        // Lines processed
-        System.out.println("Lines Processed:            " + totalLinesProcessed);
-        
-        // Count per token type
-        System.out.println("\nCount Per Token Type:");
-        System.out.println("-".repeat(70));
-        
-        List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(tokenTypeCount.entrySet());
-        sortedEntries.sort((a, b) -> b.getValue().compareTo(a.getValue()));
-        
-        for (Map.Entry<String, Integer> entry : sortedEntries) {
-            if (entry.getValue() > 0) {
-                System.out.printf("  %-30s: %d\n", entry.getKey(), entry.getValue());
-            }
-        }
-        
-        System.out.println("=".repeat(70) + "\n");
-    }
-
     // ----------------------
     // DFA-based Match functions
     // ----------------------
 
-    // DFA for single-line comments
-    // Rules: ##[ ^\n]* (## followed by any characters except newline)
+    // DFA for single-line comments: ## followed by any chars until newline
     private Token matchSingleLineComment() {
         int startColumn = column;
         int startIndex = index;
-        
-        // State: START → check for ## (comment delimiter)
-        if (index + 1 < sourceCode.length() && sourceCode.charAt(index) == '#' && sourceCode.charAt(index + 1) == '#') {
-            index += 2;
-            column += 2;
-            
-            // State: COMMENT → consume all characters until newline
-            while (index < sourceCode.length() && sourceCode.charAt(index) != '\n') {
-                index++;
-                column++;
-            }
-            
-            String lexeme = sourceCode.substring(startIndex, index);
-            return new Token(TokenType.SINGLE_LINE_COMMENT, lexeme, line, startColumn);
-        }
-        return null;
-    }
+        CommentState state = CommentState.START;
 
-    // DFA for boolean literals
-    // Rules: (true|false) - case-sensitive, must be word boundary
-    private Token matchBooleanLiteral() {
-        int startColumn = column;
-        int startIndex = index;
-        State state = State.START;
-        
-        // State: START → check for "true" (case-sensitive)
-        if (index + 4 <= sourceCode.length() && sourceCode.substring(index, index + 4).equals("true")) {
-            // Validate word boundary: next char must not be letter, digit, or underscore
-            if (index + 4 >= sourceCode.length() || 
-                (!Character.isLetterOrDigit(sourceCode.charAt(index + 4)) && sourceCode.charAt(index + 4) != '_')) {
-                state = State.IDENTIFIER;
-                index += 4;
-                column += 4;
-                return new Token(TokenType.BOOLEAN_LITERAL, "true", line, startColumn);
-            }
+        // State: START - check for '#'
+        if (index >= sourceCode.length() || sourceCode.charAt(index) != '#') {
+            return null;
         }
-        
-        // State: START → check for "false" (case-sensitive)
-        if (index + 5 <= sourceCode.length() && sourceCode.substring(index, index + 5).equals("false")) {
-            // Validate word boundary: next char must not be letter, digit, or underscore
-            if (index + 5 >= sourceCode.length() || 
-                (!Character.isLetterOrDigit(sourceCode.charAt(index + 5)) && sourceCode.charAt(index + 5) != '_')) {
-                state = State.IDENTIFIER;
-                index += 5;
-                column += 5;
-                return new Token(TokenType.BOOLEAN_LITERAL, "false", line, startColumn);
-            }
-        }
-        
-        return null;
-    }
+        state = CommentState.HASH1;
+        index++;
+        column++;
 
-    // DFA for numeric literals (INTEGER or FLOAT)
-    // Integer: [+-]?[0-9]+
-    // Float: [+-]?[0-9]+\.[0-9]{1,6}([eE][+-]?[0-9]+)?
-    private Token matchNumericLiteral() {
-        int startColumn = column;
-        int startIndex = index;
-        State state = State.START;
-
-        // State: START → check for optional sign [+|-]
-        if (index < sourceCode.length() && (sourceCode.charAt(index) == '+' || sourceCode.charAt(index) == '-')) {
-            index++;
-            column++;
-        }
-
-        // State: START/SIGN → DIGIT (must have at least one digit)
-        if (index >= sourceCode.length() || !Character.isDigit(sourceCode.charAt(index))) {
-            // No digit found after optional sign, reset and return null
+        // State: HASH1 - check for second '#'
+        if (index >= sourceCode.length() || sourceCode.charAt(index) != '#') {
             index = startIndex;
             column = startColumn;
             return null;
         }
+        state = CommentState.IN_COMMENT;
+        index++;
+        column++;
 
-        state = State.DIGIT;
+        // State: IN_COMMENT - consume until newline (longest match)
+        while (index < sourceCode.length() && sourceCode.charAt(index) != '\n') {
+            index++;
+            column++;
+        }
+
+        String lexeme = sourceCode.substring(startIndex, index);
+        return new Token(TokenType.SINGLE_LINE_COMMENT, lexeme, line, startColumn);
+    }
+
+    // DFA for boolean literals: "true" or "false" with word boundary check
+    private Token matchBooleanLiteral() {
+        int startColumn = column;
+        int startIndex = index;
+        BooleanState state = BooleanState.START;
+
+        // Try to match "true"
+        if (index < sourceCode.length() && sourceCode.charAt(index) == 't') {
+            state = BooleanState.T;
+            int tempIndex = index;
+            int tempColumn = column;
+            index++;
+            column++;
+
+            if (index < sourceCode.length() && sourceCode.charAt(index) == 'r') {
+                state = BooleanState.TR;
+                index++;
+                column++;
+
+                if (index < sourceCode.length() && sourceCode.charAt(index) == 'u') {
+                    state = BooleanState.TRU;
+                    index++;
+                    column++;
+
+                    if (index < sourceCode.length() && sourceCode.charAt(index) == 'e') {
+                        state = BooleanState.R; // final state for "true"
+                        index++;
+                        column++;
+
+                        // Check word boundary: next char must not be alphanumeric or underscore
+                        if (index >= sourceCode.length() || 
+                            (!Character.isLetterOrDigit(sourceCode.charAt(index)) && sourceCode.charAt(index) != '_')) {
+                            return new Token(TokenType.BOOLEAN_LITERAL, "true", line, startColumn);
+                        }
+                    }
+                }
+            }
+
+            // Reset if "true" was incomplete
+            index = tempIndex;
+            column = tempColumn;
+        }
+
+        // Try to match "false"
+        if (index < sourceCode.length() && sourceCode.charAt(index) == 'f') {
+            state = BooleanState.F;
+            int tempIndex = index;
+            int tempColumn = column;
+            index++;
+            column++;
+
+            if (index < sourceCode.length() && sourceCode.charAt(index) == 'a') {
+                state = BooleanState.FA;
+                index++;
+                column++;
+
+                if (index < sourceCode.length() && sourceCode.charAt(index) == 'l') {
+                    state = BooleanState.FAL;
+                    index++;
+                    column++;
+
+                    if (index < sourceCode.length() && sourceCode.charAt(index) == 's') {
+                        state = BooleanState.FALS;
+                        index++;
+                        column++;
+
+                        if (index < sourceCode.length() && sourceCode.charAt(index) == 'e') {
+                            state = BooleanState.E; // final state for "false"
+                            index++;
+                            column++;
+
+                            // Check word boundary
+                            if (index >= sourceCode.length() || 
+                                (!Character.isLetterOrDigit(sourceCode.charAt(index)) && sourceCode.charAt(index) != '_')) {
+                                return new Token(TokenType.BOOLEAN_LITERAL, "false", line, startColumn);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Reset if "false" was incomplete
+            index = tempIndex;
+            column = tempColumn;
+        }
+
+        index = startIndex;
+        column = startColumn;
+        return null;
+    }
+
+    // DFA for identifiers: letter followed by letters, digits, underscores (max 31 chars)
+    private Token matchIdentifier() {
+        int startColumn = column;
+        int startIndex = index;
+        IdentifierState state = IdentifierState.START;
+
+        // State: START - must begin with a letter
+        if (index >= sourceCode.length() || !Character.isLetter(sourceCode.charAt(index))) {
+            return null;
+        }
+        state = IdentifierState.LETTER;
+        index++;
+        column++;
+
+        // State: IN_IDENTIFIER - consume letters, digits, underscores (longest match, max 31)
+        int identifierLength = 1;
+        while (index < sourceCode.length() && identifierLength < 31 && 
+               (Character.isLetterOrDigit(sourceCode.charAt(index)) || sourceCode.charAt(index) == '_')) {
+            state = IdentifierState.IN_IDENTIFIER;
+            index++;
+            column++;
+            identifierLength++;
+        }
+
+        String lexeme = sourceCode.substring(startIndex, index);
+        return new Token(TokenType.IDENTIFIER, lexeme, line, startColumn);
+    }
+
+    // DFA for numeric literals: integer or float with proper decimal/exponent handling
+    private Token matchNumericLiteral() {
+        int startColumn = column;
+        int startIndex = index;
+        NumericState state = NumericState.START;
+
+        // State: START - first digit required
+        if (index >= sourceCode.length() || !Character.isDigit(sourceCode.charAt(index))) {
+            return null;
+        }
+        state = NumericState.DIGIT;
+        index++;
+        column++;
+
+        // State: DIGIT - consume more digits (longest match)
         while (index < sourceCode.length() && Character.isDigit(sourceCode.charAt(index))) {
             index++;
             column++;
         }
 
-        // State: DIGIT → DOT (check for decimal point)
+        // Check for decimal point (float)
         if (index < sourceCode.length() && sourceCode.charAt(index) == '.') {
-            state = State.DOT;
+            int dotIndex = index;
+            int dotColumn = column;
+            state = NumericState.DOT;
             index++;
             column++;
-            
-            // State: DOT → FLOAT (must have 1-6 digits after dot)
+
+            // State: DECIMAL - must have at least one digit after dot
+            if (index >= sourceCode.length() || !Character.isDigit(sourceCode.charAt(index))) {
+                // No decimal digits, backtrack
+                index = dotIndex;
+                column = dotColumn;
+                String lexeme = sourceCode.substring(startIndex, index);
+                return new Token(TokenType.INTEGER_LITERAL, lexeme, line, startColumn);
+            }
+
+            state = NumericState.DECIMAL;
             int decimalCount = 0;
-            
             while (index < sourceCode.length() && Character.isDigit(sourceCode.charAt(index)) && decimalCount < 6) {
-                state = State.FLOAT;
                 index++;
                 column++;
                 decimalCount++;
             }
-            
-            // Invalid: no decimal digits or more than 6 decimal places
-            if (decimalCount == 0 || (index < sourceCode.length() && Character.isDigit(sourceCode.charAt(index)))) {
+
+            // Check for more than 6 decimal places
+            if (index < sourceCode.length() && Character.isDigit(sourceCode.charAt(index))) {
+                // Invalid: more than 6 decimal digits
                 index = startIndex;
                 column = startColumn;
                 return null;
             }
-            
-            // State: FLOAT → EXPONENT (check for [eE][+-]?[0-9]+)
+
+            // Check for exponent (e/E)
             if (index < sourceCode.length() && (sourceCode.charAt(index) == 'e' || sourceCode.charAt(index) == 'E')) {
+                state = NumericState.EXPONENT;
                 index++;
                 column++;
-                
+
                 // Optional sign after exponent
                 if (index < sourceCode.length() && (sourceCode.charAt(index) == '+' || sourceCode.charAt(index) == '-')) {
+                    state = NumericState.EXP_SIGN;
                     index++;
                     column++;
                 }
-                
+
                 // Must have at least one digit in exponent
                 if (index >= sourceCode.length() || !Character.isDigit(sourceCode.charAt(index))) {
                     index = startIndex;
                     column = startColumn;
                     return null;
                 }
-                
+
+                state = NumericState.EXP_DIGIT;
                 while (index < sourceCode.length() && Character.isDigit(sourceCode.charAt(index))) {
                     index++;
                     column++;
                 }
             }
-            
+
             String lexeme = sourceCode.substring(startIndex, index);
             return new Token(TokenType.FLOAT_LITERAL, lexeme, line, startColumn);
         }
 
-        // State: DIGIT (no dot) → INTEGER
+        // State: DIGIT (no decimal point) - return as integer
         String lexeme = sourceCode.substring(startIndex, index);
         return new Token(TokenType.INTEGER_LITERAL, lexeme, line, startColumn);
     }
 
-    // DFA for identifiers
-    // Rules: Start with uppercase [A-Z], followed by lowercase, digits, underscores. Max 31 chars.
-    private Token matchIdentifier() {
-        int startColumn = column;
-        int startIndex = index;
-        State state = State.START;
-
-        // State: START → LETTER (must be UPPERCASE)
-        if (Character.isUpperCase(sourceCode.charAt(index))) {
-            state = State.LETTER;
-            index++;
-            column++;
-            int identifierLength = 1;
-            
-            // State: LETTER → IDENTIFIER (consume lowercase, digits, underscores)
-            while (index < sourceCode.length() && identifierLength < 31 && 
-                   (Character.isLowerCase(sourceCode.charAt(index)) || 
-                    Character.isDigit(sourceCode.charAt(index)) || 
-                    sourceCode.charAt(index) == '_')) {
-                state = State.IDENTIFIER;
-                index++;
-                column++;
-                identifierLength++;
-            }
-            
-            String lexeme = sourceCode.substring(startIndex, index);
-            return new Token(TokenType.IDENTIFIER, lexeme, line, startColumn);
-        }
-        return null;
-    }
-
-    // DFA for multi-character operators
-    // Arithmetic: **, +, -, *, /, %
-    // Relational: ==, !=, <=, >=, <, >
-    // Logical: &&, ||, !
-    // Assignment: +=, -=, *=, /=, =
-    // Inc/Dec: ++, --
+    // DFA for multi-character operators: check two-character combinations first (longest match)
     private Token matchMultiCharOperator() {
         int startColumn = column;
-        State state = State.START;
-        
+        OperatorState state = OperatorState.START;
+
         if (index + 1 < sourceCode.length()) {
             String twoChar = sourceCode.substring(index, index + 2);
-            
-            // State: START → multi-char operators
+            state = OperatorState.MULTI;
+
+            // Multi-character operators (longest match principle)
             if (twoChar.equals("**") || twoChar.equals("==") || twoChar.equals("!=") || 
                 twoChar.equals("<=") || twoChar.equals(">=") || twoChar.equals("&&") || 
                 twoChar.equals("||") || twoChar.equals("++") || twoChar.equals("--") || 
                 twoChar.equals("+=") || twoChar.equals("-=") || twoChar.equals("*=") || 
                 twoChar.equals("/=")) {
-                state = State.OPERATOR;
                 index += 2;
                 column += 2;
                 return new Token(TokenType.OPERATOR, twoChar, line, startColumn);
@@ -338,19 +341,15 @@ public class ManualScanner {
         return null;
     }
 
-    // DFA for single-character operators
-    // Arithmetic: +, -, *, /, %
-    // Relational: <, >
-    // Logical: !
-    // Assignment: =
+    // DFA for single-character operators: only if not part of multi-char operator
     private Token matchSingleCharOperator() {
         int startColumn = column;
         char ch = sourceCode.charAt(index);
-        State state = State.START;
-        
-        // State: START → single-char operators
+        OperatorState state = OperatorState.START;
+
+        // State: SINGLE - single-character operators
         if ("+-*/%<>=!".indexOf(ch) != -1) {
-            state = State.OPERATOR;
+            state = OperatorState.SINGLE;
             index++;
             column++;
             return new Token(TokenType.OPERATOR, String.valueOf(ch), line, startColumn);
@@ -358,16 +357,15 @@ public class ManualScanner {
         return null;
     }
 
-    // DFA for punctuators
-    // Rules: [(){}[\],;:] - parentheses, braces, brackets, comma, semicolon, colon
+    // DFA for punctuators: single-character punctuation marks
     private Token matchPunctuator() {
         int startColumn = column;
         char ch = sourceCode.charAt(index);
-        State state = State.START;
-        
-        // State: START → validate punctuator character
-        if ("(){}[],:;".indexOf(ch) != -1) {
-            state = State.PUNCTUATOR;
+        PunctuatorState state = PunctuatorState.START;
+
+        // State: PUNCTUATOR - validate punctuation character
+        if (";,(){}[]:.".indexOf(ch) != -1) {
+            state = PunctuatorState.PUNCTUATOR;
             index++;
             column++;
             return new Token(TokenType.PUNCTUATOR, String.valueOf(ch), line, startColumn);
@@ -383,14 +381,10 @@ public class ManualScanner {
         String code = "## This is a comment\ntrue false Count + 3.14 42 ++ ; Count MyVar";
         ManualScanner scanner = new ManualScanner(code);
         List<Token> tokens = scanner.scan();
-        
-        System.out.println("TOKENS:");
         for (Token t : tokens) {
             System.out.println(t);
         }
-        
         scanner.getSymbolTable().display();
-        scanner.displayStatistics();
     }
 }
 
