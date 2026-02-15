@@ -10,7 +10,7 @@ This project implements a lexical analyzer for a custom language with the `.lang
 All source programs for this language must be saved with the `.lang` extension.
 
 ### Example:
-test1.lang
+test1.lang,
 test2.lang
 
 ## Keywords
@@ -46,7 +46,7 @@ Identifiers in OurLang are used to name variables and must follow these rules:
 **Invalid Identifiers:**
 - count (starts with lowercase letter)
 - verylongidthatexceeds31characters (exceedslimit)
--COUNT (followed by uppercase letters)
+- COUNT (followed by uppercase letters)
 
 ## Literals
 
@@ -56,8 +56,8 @@ Literals represent fixed values in OurLang. The lexical analyzer supports the fo
 - Whole numbers without a decimal point.
 - Optional `+` or `-` sign.
 - Example:
-123
--42
+123,
+-42,
 +7
 
 ### 2. Floating-Point Literals
@@ -66,35 +66,33 @@ Literals represent fixed values in OurLang. The lexical analyzer supports the fo
 - Optional `+` or `-` sign.
 - Exponent format: `e` or `E` followed by optional sign and digits.
 - Examples:
-3.14
--0.123456
-2.0E-3
+3.14,
+-0.123456,
+2.0E-3,
 +5.67e+2
 
 ### 3. Boolean Literals
 - Only two values: `true` or `false`.
 - Examples:
-true
+true,
 false
 
 ### 4. Character Literals
 - Single characters enclosed in single quotes `' '`.
 - Supports escape sequences: `\n`, `\t`, `\\`, `\'`.
 - Examples:
-'A'
-'\n'
+'A',
+'\n',
 '\t'
-'\'
 
 ### 5. String Literals
 - Sequence of characters enclosed in double quotes `" "`.
 - Supports escape sequences: `\n`, `\t`, `\\`, `\"`.
 - Can span multiple lines.
 - Examples:
-"Hello, World!"
-"Line1\nLine2\tTabbed"
-"He said "Hello""
-"C:\Users\Test"
+"Hello, World!",
+"Line1\nLine2\tTabbed",
+"I said "Hello""
 
 ## Operators
 
@@ -144,8 +142,7 @@ OurLang supports **single-line** and **multi-line** comments, including **nested
 ### 1. Single-line Comments
 Start with `##` and continue until the end of the line.
 
-Example:
-## This is a single-line comment
+Example: ## This is a single-line comment
 
 ### 2. Multi-Line Comments
 Enclosed between #* and *#.
@@ -165,22 +162,20 @@ Example:
 *#
 
 ## Sample Programs
-
-### Single-line comment example
+### Single-line Comment Example
+```lang
 Count = 10;
 Result = Count + 5;
 Value = 3.14;
 Final = Result * Value;
 
 ### Boolean Literals and Operators
-
 Flag1 = true;
 Flag2 = false;
 X = 100 % 3;
 Y = X + 5;
 
 ### Multi-Line and Nested Comments
-
 #* Multi-line comment
    spanning multiple lines
    with nested comment #* Inner comment *#
@@ -209,8 +204,8 @@ javac Scanner.java Token.java SymbolTable.java ErrorHandler.java
 java Scanner
 
 ### Team Members
-Areej Shaikh: 23I-0620
-Abeerah Sohail: 23I-0660
+##Areej Shaikh: 23I-0620
+##Abeerah Sohail: 23I-0660
 
 
 
