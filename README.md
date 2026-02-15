@@ -236,8 +236,8 @@ javac Scanner.java Token.java SymbolTable.java ErrorHandler.java
 java Scanner
 
 ### Team Members
-##Areej Shaikh: 23I-0620
-##Abeerah Sohail: 23I-0660
+## Areej Shaikh: 23I-0620
+## Abeerah Sohail: 23I-0660
 
 
 

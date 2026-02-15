@@ -4,8 +4,8 @@ READING FILE: test1.lang
 ==========================================================================================
 
 ========== STATISTICS ==========
-Total tokens: 44
-Identifiers: 7
+Total tokens: 49
+Identifiers: 9
 Keywords: 0
 Boolean literals: 2
 Operators: 12
@@ -42,17 +42,22 @@ SCANNED TOKENS:
 <FLOAT_LITERAL, "2.0E-3", Line: 11, Col: 11>
 <PUNCTUATOR, ";", Line: 11, Col: 17>
 <IDENTIFIER, "Boolean", Line: 12, Col: 1>
+<INTEGER_LITERAL, "1", Line: 12, Col: 13>
 <OPERATOR, "=", Line: 12, Col: 15>
 <BOOLEAN_LITERAL, "true", Line: 12, Col: 17>
 <PUNCTUATOR, ";", Line: 12, Col: 21>
 <IDENTIFIER, "Boolean", Line: 13, Col: 1>
+<INTEGER_LITERAL, "2", Line: 13, Col: 13>
 <OPERATOR, "=", Line: 13, Col: 15>
 <BOOLEAN_LITERAL, "false", Line: 13, Col: 17>
 <PUNCTUATOR, ";", Line: 13, Col: 22>
+<IDENTIFIER, "I", Line: 14, Col: 1>
+<IDENTIFIER, "F", Line: 14, Col: 2>
 <PUNCTUATOR, "(", Line: 14, Col: 4>
 <OPERATOR, ">", Line: 14, Col: 7>
 <INTEGER_LITERAL, "10", Line: 14, Col: 9>
 <OPERATOR, "&&", Line: 14, Col: 12>
+<INTEGER_LITERAL, "1", Line: 14, Col: 19>
 <PUNCTUATOR, ")", Line: 14, Col: 20>
 <PUNCTUATOR, "{", Line: 14, Col: 22>
 <OPERATOR, "++", Line: 15, Col: 6>
@@ -68,21 +73,31 @@ SYMBOL TABLE:
 In0t | IDENTIFIER | line: 7 | freq: 1
 Float | IDENTIFIER | line: 8 | freq: 4
 Boolean | IDENTIFIER | line: 12 | freq: 2
+I | IDENTIFIER | line: 14 | freq: 1
+F | IDENTIFIER | line: 14 | freq: 1
 
 LEXICAL ERRORS:
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 7    | Column: 6    | Lexeme: 'x'                  | Reason: Identifier 'x' starts with lowercase 'x' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 8    | Column: 7    | Lexeme: 'a'                  | Reason: Identifier 'a' starts with lowercase 'a' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 9    | Column: 7    | Lexeme: 'b'                  | Reason: Identifier 'b' starts with lowercase 'b' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 10   | Column: 7    | Lexeme: 'c'                  | Reason: Identifier 'c' starts with lowercase 'c' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 11   | Column: 7    | Lexeme: 'd'                  | Reason: Identifier 'd' starts with lowercase 'd' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 12   | Column: 9    | Lexeme: 'flag1'              | Reason: Identifier 'flag1' starts with lowercase 'f' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 13   | Column: 9    | Lexeme: 'flag2'              | Reason: Identifier 'flag2' starts with lowercase 'f' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 14   | Column: 1    | Lexeme: 'IF'                 | Reason: Identifier 'IF' contains uppercase letter 'F' at position 2 — only lowercase letters, digits, and underscores allowed after first character
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 14   | Column: 5    | Lexeme: 'x'                  | Reason: Identifier 'x' starts with lowercase 'x' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 14   | Column: 15   | Lexeme: 'flag1'              | Reason: Identifier 'flag1' starts with lowercase 'f' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 15   | Column: 5    | Lexeme: 'x'                  | Reason: Identifier 'x' starts with lowercase 'x' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 16   | Column: 5    | Lexeme: 'y'                  | Reason: Identifier 'y' starts with lowercase 'y' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 17   | Column: 5    | Lexeme: 'z'                  | Reason: Identifier 'z' starts with lowercase 'z' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 7    | Column: 6    | Lexeme: 'x'                  | Reason: Unrecognized character 'x'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 8    | Column: 7    | Lexeme: 'a'                  | Reason: Unrecognized character 'a'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 9    | Column: 7    | Lexeme: 'b'                  | Reason: Unrecognized character 'b'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 10   | Column: 7    | Lexeme: 'c'                  | Reason: Unrecognized character 'c'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 11   | Column: 7    | Lexeme: 'd'                  | Reason: Unrecognized character 'd'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 9    | Lexeme: 'f'                  | Reason: Unrecognized character 'f'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 10   | Lexeme: 'l'                  | Reason: Unrecognized character 'l'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 11   | Lexeme: 'a'                  | Reason: Unrecognized character 'a'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 12   | Lexeme: 'g'                  | Reason: Unrecognized character 'g'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 13   | Column: 9    | Lexeme: 'f'                  | Reason: Unrecognized character 'f'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 13   | Column: 10   | Lexeme: 'l'                  | Reason: Unrecognized character 'l'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 13   | Column: 11   | Lexeme: 'a'                  | Reason: Unrecognized character 'a'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 13   | Column: 12   | Lexeme: 'g'                  | Reason: Unrecognized character 'g'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 14   | Column: 5    | Lexeme: 'x'                  | Reason: Unrecognized character 'x'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 14   | Column: 15   | Lexeme: 'f'                  | Reason: Unrecognized character 'f'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 14   | Column: 16   | Lexeme: 'l'                  | Reason: Unrecognized character 'l'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 14   | Column: 17   | Lexeme: 'a'                  | Reason: Unrecognized character 'a'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 14   | Column: 18   | Lexeme: 'g'                  | Reason: Unrecognized character 'g'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 15   | Column: 5    | Lexeme: 'x'                  | Reason: Unrecognized character 'x'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 16   | Column: 5    | Lexeme: 'y'                  | Reason: Unrecognized character 'y'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 17   | Column: 5    | Lexeme: 'z'                  | Reason: Unrecognized character 'z'
 
 ------------------------------------------------------------------------------------------
 
@@ -184,15 +199,15 @@ READING FILE: test3.lang
 ==========================================================================================
 
 ========== STATISTICS ==========
-Total tokens: 37
-Identifiers: 9
+Total tokens: 45
+Identifiers: 11
 Keywords: 0
 Boolean literals: 0
-Operators: 9
-Punctuators: 9
+Operators: 11
+Punctuators: 11
 Single-line comments removed: 1
 Multi-line comments removed: 0
-Lines processed: 12
+Lines processed: 15
 ================================
 
 SCANNED TOKENS:
@@ -233,6 +248,15 @@ SCANNED TOKENS:
 <OPERATOR, "=", Line: 11, Col: 13>
 <CHAR_LITERAL, "'\''", Line: 11, Col: 15>
 <PUNCTUATOR, ";", Line: 11, Col: 19>
+<IDENTIFIER, "String", Line: 12, Col: 1>
+<OPERATOR, "=", Line: 12, Col: 16>
+<STRING_LITERAL, ""Hello
+World"", Line: 12, Col: 18>
+<PUNCTUATOR, ";", Line: 13, Col: 7>
+<IDENTIFIER, "String", Line: 14, Col: 1>
+<OPERATOR, "=", Line: 14, Col: 13>
+<STRING_LITERAL, ""Hello \u0041"", Line: 14, Col: 15>
+<PUNCTUATOR, ";", Line: 14, Col: 29>
 
 SYMBOL TABLE:
 Name | IDENTIFIER | line: 3 | freq: 1
@@ -244,9 +268,20 @@ Newline | IDENTIFIER | line: 8 | freq: 1
 Tab | IDENTIFIER | line: 9 | freq: 1
 Backslash | IDENTIFIER | line: 10 | freq: 1
 Singlequote | IDENTIFIER | line: 11 | freq: 1
+String | IDENTIFIER | line: 12 | freq: 2
 
 LEXICAL ERRORS:
-No lexical errors found.
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 8    | Lexeme: 'm'                  | Reason: Unrecognized character 'm'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 9    | Lexeme: 'e'                  | Reason: Unrecognized character 'e'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 10   | Lexeme: 's'                  | Reason: Unrecognized character 's'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 11   | Lexeme: 's'                  | Reason: Unrecognized character 's'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 12   | Lexeme: 'a'                  | Reason: Unrecognized character 'a'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 13   | Lexeme: 'g'                  | Reason: Unrecognized character 'g'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 14   | Lexeme: 'e'                  | Reason: Unrecognized character 'e'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 14   | Column: 8    | Lexeme: 't'                  | Reason: Unrecognized character 't'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 14   | Column: 9    | Lexeme: 'e'                  | Reason: Unrecognized character 'e'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 14   | Column: 10   | Lexeme: 'x'                  | Reason: Unrecognized character 'x'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 14   | Column: 11   | Lexeme: 't'                  | Reason: Unrecognized character 't'
 
 ------------------------------------------------------------------------------------------
 
@@ -255,15 +290,15 @@ READING FILE: test4.lang
 ==========================================================================================
 
 ========== STATISTICS ==========
-Total tokens: 25
-Identifiers: 2
+Total tokens: 10
+Identifiers: 1
 Keywords: 0
 Boolean literals: 0
-Operators: 9
-Punctuators: 8
+Operators: 3
+Punctuators: 2
 Single-line comments removed: 1
 Multi-line comments removed: 0
-Lines processed: 11
+Lines processed: 12
 ================================
 
 SCANNED TOKENS:
@@ -272,47 +307,40 @@ SCANNED TOKENS:
 <OPERATOR, "=", Line: 3, Col: 7>
 <INTEGER_LITERAL, "123", Line: 3, Col: 9>
 <PUNCTUATOR, ";", Line: 3, Col: 12>
+<INTEGER_LITERAL, "1", Line: 4, Col: 8>
 <OPERATOR, "=", Line: 4, Col: 10>
 <PUNCTUATOR, ";", Line: 4, Col: 20>
+<INTEGER_LITERAL, "2", Line: 5, Col: 8>
 <OPERATOR, "=", Line: 5, Col: 10>
-<IDENTIFIER, "Value", Line: 5, Col: 33>
-<OPERATOR, "=", Line: 5, Col: 39>
-<INTEGER_LITERAL, "100", Line: 5, Col: 41>
-<INTEGER_LITERAL, "50", Line: 5, Col: 47>
-<PUNCTUATOR, ";", Line: 5, Col: 49>
-<OPERATOR, "=", Line: 6, Col: 10>
-<PUNCTUATOR, ";", Line: 6, Col: 25>
-<OPERATOR, "=", Line: 7, Col: 50>
-<INTEGER_LITERAL, "5", Line: 7, Col: 52>
-<PUNCTUATOR, ";", Line: 7, Col: 53>
-<OPERATOR, "=", Line: 8, Col: 9>
-<INTEGER_LITERAL, "500", Line: 8, Col: 12>
-<PUNCTUATOR, ";", Line: 8, Col: 15>
-<OPERATOR, "=", Line: 9, Col: 12>
-<PUNCTUATOR, ";", Line: 9, Col: 17>
-<OPERATOR, "=", Line: 10, Col: 20>
-<PUNCTUATOR, ";", Line: 10, Col: 26>
 
 SYMBOL TABLE:
 Valid | IDENTIFIER | line: 3 | freq: 1
-Value | IDENTIFIER | line: 5 | freq: 1
 
 LEXICAL ERRORS:
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 4    | Column: 1    | Lexeme: 'invalid1'           | Reason: Identifier 'invalid1' starts with lowercase 'i' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 4    | Column: 1    | Lexeme: 'i'                  | Reason: Unrecognized character 'i'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 4    | Column: 2    | Lexeme: 'n'                  | Reason: Unrecognized character 'n'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 4    | Column: 3    | Lexeme: 'v'                  | Reason: Unrecognized character 'v'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 4    | Column: 4    | Lexeme: 'a'                  | Reason: Unrecognized character 'a'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 4    | Column: 5    | Lexeme: 'l'                  | Reason: Unrecognized character 'l'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 4    | Column: 6    | Lexeme: 'i'                  | Reason: Unrecognized character 'i'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 4    | Column: 7    | Lexeme: 'd'                  | Reason: Unrecognized character 'd'
 [LEXICAL ERROR] Type: MALFORMED_LITERAL      | Line: 4    | Column: 12   | Lexeme: '12.34.56'           | Reason: Float literal '12.34.56' contains multiple decimal points
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 5    | Column: 1    | Lexeme: 'invalid2'           | Reason: Identifier 'invalid2' starts with lowercase 'i' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: MALFORMED_LITERAL      | Line: 5    | Column: 12   | Lexeme: '"unterminated string' | Reason: Unterminated string literal — missing closing '"' before newline
-[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 32   | Lexeme: '"'                  | Reason: Unrecognized character '"'
-[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 45   | Lexeme: '@'                  | Reason: Unrecognized character '@'
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 6    | Column: 1    | Lexeme: 'invalid3'           | Reason: Identifier 'invalid3' starts with lowercase 'i' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 6    | Column: 12   | Lexeme: 'lowercase_var'      | Reason: Identifier 'lowercase_var' starts with lowercase 'l' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 7    | Column: 1    | Lexeme: 'VeryLongIdentifierThatExceedsThirtyOneCharacters' | Reason: Identifier 'VeryLongIdentifierThatExceedsThirtyOneCharacters' exceeds maximum length of 31 characters (found 48)
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 8    | Column: 1    | Lexeme: 'BadChar'            | Reason: Identifier 'BadChar' contains uppercase letter 'C' at position 4 — only lowercase letters, digits, and underscores allowed after first character
-[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 8    | Column: 11   | Lexeme: '$'                  | Reason: Unrecognized character '$'
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 9    | Column: 1    | Lexeme: 'incomplete'         | Reason: Identifier 'incomplete' starts with lowercase 'i' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: MALFORMED_LITERAL      | Line: 9    | Column: 14   | Lexeme: '42.'                | Reason: Number '42.' ends with decimal point — must have digits after '.'
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 10   | Column: 1    | Lexeme: 'number_with_dollar' | Reason: Identifier 'number_with_dollar' starts with lowercase 'n' — must start with uppercase letter A-Z
-[LEXICAL ERROR] Type: MALFORMED_LITERAL      | Line: 10   | Column: 22   | Lexeme: '123$'               | Reason: Invalid character '$' attached to number literal
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 1    | Lexeme: 'i'                  | Reason: Unrecognized character 'i'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 2    | Lexeme: 'n'                  | Reason: Unrecognized character 'n'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 3    | Lexeme: 'v'                  | Reason: Unrecognized character 'v'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 4    | Lexeme: 'a'                  | Reason: Unrecognized character 'a'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 5    | Lexeme: 'l'                  | Reason: Unrecognized character 'l'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 6    | Lexeme: 'i'                  | Reason: Unrecognized character 'i'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 7    | Lexeme: 'd'                  | Reason: Unrecognized character 'd'
+[LEXICAL ERROR] Type: MALFORMED_LITERAL      | Line: 5    | Column: 12   | Lexeme: '"unterminated string
+Value = 100 @ 50;
+invalid3 = lowercase_var;
+VeryLongIdentifierThatExceedsThirtyOneCharacters = 5;
+BadChar = $500;
+incomplete = 42.;
+number_with_dollar = 123$;
+' | Reason: Unterminated string literal at end of file
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 12   | Column: 1    | Lexeme: '"'                  | Reason: Unrecognized character '"'
 
 ------------------------------------------------------------------------------------------
 

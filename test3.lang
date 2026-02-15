@@ -9,3 +9,6 @@ Newline = '\n';
 Tab = '\t';
 Backslash = '\\';
 Singlequote = '\'';
+String message = "Hello
+World";
+String text = "Hello \u0041"; 
