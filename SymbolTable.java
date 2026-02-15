@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.*;
 
 public class SymbolTable {
@@ -16,7 +17,7 @@ public class SymbolTable {
 
         @Override
         public String toString() {
-            return String.format("Name: %-15s Type: %-10s First Occurrence: %-5d Frequency: %d", 
+            return String.format("%s | %s | line: %d | freq: %d", 
                 name, type, firstOccurrence, frequency);
         }
     }
@@ -64,6 +65,17 @@ public class SymbolTable {
             }
         }
         System.out.println("=".repeat(70) + "\n");
+    }
+
+    // Write symbol table to file
+    public void write(PrintWriter writer) {
+        if (symbols.isEmpty()) {
+            writer.println("(Empty - No identifiers found)");
+        } else {
+            for (SymbolEntry entry : symbols.values()) {
+                writer.println(entry.toString());
+            }
+        }
     }
 
     // Get symbol count

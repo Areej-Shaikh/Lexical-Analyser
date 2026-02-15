@@ -1,0 +1,11 @@
+## Test file 3: String and character literals with escape sequences
+
+Name = "Hello World";
+Message = "Line1\nLine2\tTabbed";
+Quote = "He said \"Hello\"";
+Path = "C:\\Users\\Test";
+Character = 'A';
+Newline = '\n';
+Tab = '\t';
+Backslash = '\\';
+SingleQuote = '\'';

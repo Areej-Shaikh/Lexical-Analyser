@@ -3,7 +3,8 @@ public enum TokenType {
     BOOLEAN_LITERAL,
     INTEGER_LITERAL,
     FLOAT_LITERAL,
-    
+    STRING_LITERAL,
+    CHAR_LITERAL,
     // Identifiers
     IDENTIFIER,
     
@@ -15,6 +16,7 @@ public enum TokenType {
     
     // Comments
     SINGLE_LINE_COMMENT,
+    MULTI_LINE_COMMENT,
     
     // Special
     EOF,

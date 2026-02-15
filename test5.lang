@@ -1,0 +1,34 @@
+## Single-line comment example
+Count = 10;
+
+## Another single-line comment
+Result = Count + 5;
+
+#* Multi-line comment
+   spanning multiple lines
+   with various content *#
+
+Value = 3.14;
+
+#* Nested comment example
+   Outer comment start
+   #* Inner nested comment
+      with extra content
+   *#
+   Outer comment end *#
+
+#* Another nested test
+   Start of outer
+   #* Nested level 1
+      #* Nested level 2
+         Deep content
+      *#
+   End of level 1 *#
+End of outer *#
+
+#* Comment with special chars: @$%^& *#
+
+Final = Result * Value;
+
+#* Unterminated multi-line comment test
+this would cause an error

@@ -1,0 +1,602 @@
+
+==========================================================================================
+READING FILE: test1.lang
+==========================================================================================
+
+========== STATISTICS ==========
+Total tokens: 234
+Identifiers: 56
+Keywords: 0
+Boolean literals: 7
+Operators: 65
+Punctuators: 57
+Single-line comments removed: 2
+Multi-line comments removed: 1
+Lines processed: 62
+================================
+
+SCANNED TOKENS:
+<SINGLE_LINE_COMMENT, "## Example program using all tokens", Line: 1, Col: 1>
+<MULTI_LINE_COMMENT, "#* Multi-line comment example
+   This is a multi-line comment
+   #* Nested multi-line comment *#
+*#", Line: 3, Col: 1>
+<IDENTIFIER, "Int_x", Line: 8, Col: 1>
+<OPERATOR, "=", Line: 8, Col: 7>
+<INTEGER_LITERAL, "0", Line: 8, Col: 9>
+<PUNCTUATOR, ";", Line: 8, Col: 10>
+<IDENTIFIER, "Float_a", Line: 9, Col: 1>
+<OPERATOR, "=", Line: 9, Col: 9>
+<FLOAT_LITERAL, "3.14", Line: 9, Col: 11>
+<PUNCTUATOR, ";", Line: 9, Col: 15>
+<IDENTIFIER, "Float_b", Line: 10, Col: 1>
+<OPERATOR, "=", Line: 10, Col: 9>
+<FLOAT_LITERAL, "3.14", Line: 10, Col: 11>
+<PUNCTUATOR, ";", Line: 10, Col: 15>
+<IDENTIFIER, "Float_c", Line: 11, Col: 1>
+<OPERATOR, "=", Line: 11, Col: 9>
+<FLOAT_LITERAL, "+3.12", Line: 11, Col: 11>
+<PUNCTUATOR, ";", Line: 11, Col: 16>
+<IDENTIFIER, "Float_d", Line: 12, Col: 1>
+<OPERATOR, "=", Line: 12, Col: 9>
+<FLOAT_LITERAL, "2.0E-3", Line: 12, Col: 11>
+<PUNCTUATOR, ";", Line: 12, Col: 17>
+<IDENTIFIER, "Boolean_flag1", Line: 13, Col: 1>
+<OPERATOR, "=", Line: 13, Col: 15>
+<BOOLEAN_LITERAL, "true", Line: 13, Col: 17>
+<PUNCTUATOR, ";", Line: 13, Col: 21>
+<IDENTIFIER, "Boolean_flag2", Line: 14, Col: 1>
+<OPERATOR, "=", Line: 14, Col: 15>
+<BOOLEAN_LITERAL, "false", Line: 14, Col: 17>
+<PUNCTUATOR, ";", Line: 14, Col: 22>
+<IDENTIFIER, "Result", Line: 16, Col: 1>
+<OPERATOR, "=", Line: 16, Col: 8>
+<IDENTIFIER, "Int_x", Line: 16, Col: 10>
+<OPERATOR, "+", Line: 16, Col: 16>
+<IDENTIFIER, "Float_a", Line: 16, Col: 18>
+<OPERATOR, "**", Line: 16, Col: 26>
+<INTEGER_LITERAL, "2", Line: 16, Col: 29>
+<PUNCTUATOR, ";", Line: 16, Col: 30>
+<IDENTIFIER, "Valid_identifier_123", Line: 17, Col: 1>
+<OPERATOR, "=", Line: 17, Col: 22>
+<INTEGER_LITERAL, "100", Line: 17, Col: 24>
+<PUNCTUATOR, ";", Line: 17, Col: 27>
+<IDENTIFIER, "Test", Line: 18, Col: 1>
+<OPERATOR, "=", Line: 18, Col: 6>
+<IDENTIFIER, "Int_x", Line: 18, Col: 8>
+<OPERATOR, "/", Line: 18, Col: 14>
+<INTEGER_LITERAL, "5", Line: 18, Col: 16>
+<PUNCTUATOR, ";", Line: 18, Col: 17>
+<SINGLE_LINE_COMMENT, "## Single line comment example", Line: 20, Col: 1>
+<IDENTIFIER, "Condition_check", Line: 22, Col: 1>
+<OPERATOR, "=", Line: 22, Col: 17>
+<IDENTIFIER, "Int_x", Line: 22, Col: 19>
+<OPERATOR, ">", Line: 22, Col: 25>
+<INTEGER_LITERAL, "10", Line: 22, Col: 27>
+<OPERATOR, "&&", Line: 22, Col: 30>
+<IDENTIFIER, "Boolean_flag1", Line: 22, Col: 33>
+<PUNCTUATOR, ";", Line: 22, Col: 46>
+<IDENTIFIER, "Loop_counter", Line: 24, Col: 1>
+<OPERATOR, "=", Line: 24, Col: 14>
+<INTEGER_LITERAL, "0", Line: 24, Col: 16>
+<PUNCTUATOR, ";", Line: 24, Col: 17>
+<IDENTIFIER, "Loop_counter", Line: 25, Col: 1>
+<OPERATOR, "++", Line: 25, Col: 13>
+<PUNCTUATOR, ";", Line: 25, Col: 15>
+<IDENTIFIER, "Loop_counter", Line: 26, Col: 1>
+<OPERATOR, "--", Line: 26, Col: 13>
+<PUNCTUATOR, ";", Line: 26, Col: 15>
+<IDENTIFIER, "Loop_counter", Line: 27, Col: 1>
+<OPERATOR, "+=", Line: 27, Col: 14>
+<INTEGER_LITERAL, "1", Line: 27, Col: 17>
+<PUNCTUATOR, ";", Line: 27, Col: 18>
+<IDENTIFIER, "Loop_counter", Line: 28, Col: 1>
+<OPERATOR, "-=", Line: 28, Col: 14>
+<INTEGER_LITERAL, "1", Line: 28, Col: 17>
+<PUNCTUATOR, ";", Line: 28, Col: 18>
+<IDENTIFIER, "Loop_counter", Line: 29, Col: 1>
+<OPERATOR, "*=", Line: 29, Col: 14>
+<INTEGER_LITERAL, "2", Line: 29, Col: 17>
+<PUNCTUATOR, ";", Line: 29, Col: 18>
+<IDENTIFIER, "Loop_counter", Line: 30, Col: 1>
+<OPERATOR, "/=", Line: 30, Col: 14>
+<INTEGER_LITERAL, "2", Line: 30, Col: 17>
+<PUNCTUATOR, ";", Line: 30, Col: 18>
+<IDENTIFIER, "Comparison1", Line: 32, Col: 1>
+<OPERATOR, "=", Line: 32, Col: 13>
+<IDENTIFIER, "Int_x", Line: 32, Col: 15>
+<OPERATOR, "==", Line: 32, Col: 21>
+<INTEGER_LITERAL, "10", Line: 32, Col: 24>
+<PUNCTUATOR, ";", Line: 32, Col: 26>
+<IDENTIFIER, "Comparison2", Line: 33, Col: 1>
+<OPERATOR, "=", Line: 33, Col: 13>
+<IDENTIFIER, "Int_x", Line: 33, Col: 15>
+<OPERATOR, "!=", Line: 33, Col: 21>
+<INTEGER_LITERAL, "10", Line: 33, Col: 24>
+<PUNCTUATOR, ";", Line: 33, Col: 26>
+<IDENTIFIER, "Comparison3", Line: 34, Col: 1>
+<OPERATOR, "=", Line: 34, Col: 13>
+<IDENTIFIER, "Int_x", Line: 34, Col: 15>
+<OPERATOR, "<=", Line: 34, Col: 21>
+<INTEGER_LITERAL, "10", Line: 34, Col: 24>
+<PUNCTUATOR, ";", Line: 34, Col: 26>
+<IDENTIFIER, "Comparison4", Line: 35, Col: 1>
+<OPERATOR, "=", Line: 35, Col: 13>
+<IDENTIFIER, "Int_x", Line: 35, Col: 15>
+<OPERATOR, ">=", Line: 35, Col: 21>
+<INTEGER_LITERAL, "10", Line: 35, Col: 24>
+<PUNCTUATOR, ";", Line: 35, Col: 26>
+<IDENTIFIER, "Comparison5", Line: 36, Col: 1>
+<OPERATOR, "=", Line: 36, Col: 13>
+<IDENTIFIER, "Int_x", Line: 36, Col: 15>
+<OPERATOR, "<", Line: 36, Col: 21>
+<INTEGER_LITERAL, "10", Line: 36, Col: 23>
+<PUNCTUATOR, ";", Line: 36, Col: 25>
+<IDENTIFIER, "Comparison6", Line: 37, Col: 1>
+<OPERATOR, "=", Line: 37, Col: 13>
+<IDENTIFIER, "Int_x", Line: 37, Col: 15>
+<OPERATOR, ">", Line: 37, Col: 21>
+<INTEGER_LITERAL, "10", Line: 37, Col: 23>
+<PUNCTUATOR, ";", Line: 37, Col: 25>
+<IDENTIFIER, "Logic1", Line: 39, Col: 1>
+<OPERATOR, "=", Line: 39, Col: 8>
+<BOOLEAN_LITERAL, "true", Line: 39, Col: 10>
+<OPERATOR, "&&", Line: 39, Col: 15>
+<BOOLEAN_LITERAL, "false", Line: 39, Col: 18>
+<PUNCTUATOR, ";", Line: 39, Col: 23>
+<IDENTIFIER, "Logic2", Line: 40, Col: 1>
+<OPERATOR, "=", Line: 40, Col: 8>
+<BOOLEAN_LITERAL, "true", Line: 40, Col: 10>
+<OPERATOR, "||", Line: 40, Col: 15>
+<BOOLEAN_LITERAL, "false", Line: 40, Col: 18>
+<PUNCTUATOR, ";", Line: 40, Col: 23>
+<IDENTIFIER, "Logic3", Line: 41, Col: 1>
+<OPERATOR, "=", Line: 41, Col: 8>
+<OPERATOR, "!", Line: 41, Col: 10>
+<BOOLEAN_LITERAL, "true", Line: 41, Col: 11>
+<PUNCTUATOR, ";", Line: 41, Col: 15>
+<IDENTIFIER, "Arithmetic1", Line: 43, Col: 1>
+<OPERATOR, "=", Line: 43, Col: 13>
+<INTEGER_LITERAL, "5", Line: 43, Col: 15>
+<OPERATOR, "+", Line: 43, Col: 17>
+<INTEGER_LITERAL, "3", Line: 43, Col: 19>
+<PUNCTUATOR, ";", Line: 43, Col: 20>
+<IDENTIFIER, "Arithmetic2", Line: 44, Col: 1>
+<OPERATOR, "=", Line: 44, Col: 13>
+<INTEGER_LITERAL, "5", Line: 44, Col: 15>
+<OPERATOR, "-", Line: 44, Col: 17>
+<INTEGER_LITERAL, "3", Line: 44, Col: 19>
+<PUNCTUATOR, ";", Line: 44, Col: 20>
+<IDENTIFIER, "Arithmetic3", Line: 45, Col: 1>
+<OPERATOR, "=", Line: 45, Col: 13>
+<INTEGER_LITERAL, "5", Line: 45, Col: 15>
+<OPERATOR, "*", Line: 45, Col: 17>
+<INTEGER_LITERAL, "3", Line: 45, Col: 19>
+<PUNCTUATOR, ";", Line: 45, Col: 20>
+<IDENTIFIER, "Arithmetic4", Line: 46, Col: 1>
+<OPERATOR, "=", Line: 46, Col: 13>
+<INTEGER_LITERAL, "5", Line: 46, Col: 15>
+<OPERATOR, "/", Line: 46, Col: 17>
+<INTEGER_LITERAL, "3", Line: 46, Col: 19>
+<PUNCTUATOR, ";", Line: 46, Col: 20>
+<IDENTIFIER, "Arithmetic5", Line: 47, Col: 1>
+<OPERATOR, "=", Line: 47, Col: 13>
+<INTEGER_LITERAL, "5", Line: 47, Col: 15>
+<OPERATOR, "%", Line: 47, Col: 17>
+<INTEGER_LITERAL, "3", Line: 47, Col: 19>
+<PUNCTUATOR, ";", Line: 47, Col: 20>
+<IDENTIFIER, "Arithmetic6", Line: 48, Col: 1>
+<OPERATOR, "=", Line: 48, Col: 13>
+<INTEGER_LITERAL, "5", Line: 48, Col: 15>
+<OPERATOR, "**", Line: 48, Col: 17>
+<INTEGER_LITERAL, "3", Line: 48, Col: 20>
+<PUNCTUATOR, ";", Line: 48, Col: 21>
+<IDENTIFIER, "String_test", Line: 50, Col: 1>
+<OPERATOR, "=", Line: 50, Col: 13>
+<STRING_LITERAL, ""Hello World"", Line: 50, Col: 15>
+<PUNCTUATOR, ";", Line: 50, Col: 28>
+<IDENTIFIER, "Char_test", Line: 51, Col: 1>
+<OPERATOR, "=", Line: 51, Col: 11>
+<CHAR_LITERAL, "'a'", Line: 51, Col: 13>
+<PUNCTUATOR, ";", Line: 51, Col: 16>
+<IDENTIFIER, "String_escape", Line: 52, Col: 1>
+<OPERATOR, "=", Line: 52, Col: 15>
+<STRING_LITERAL, ""Line1\nLine2\tTabbed"", Line: 52, Col: 17>
+<PUNCTUATOR, ";", Line: 52, Col: 39>
+<IDENTIFIER, "Char_escape", Line: 53, Col: 1>
+<OPERATOR, "=", Line: 53, Col: 13>
+<CHAR_LITERAL, "'\n'", Line: 53, Col: 15>
+<PUNCTUATOR, ";", Line: 53, Col: 19>
+<IDENTIFIER, "Array_example", Line: 55, Col: 1>
+<OPERATOR, "=", Line: 55, Col: 15>
+<PUNCTUATOR, "[", Line: 55, Col: 17>
+<INTEGER_LITERAL, "1", Line: 55, Col: 18>
+<PUNCTUATOR, ",", Line: 55, Col: 19>
+<INTEGER_LITERAL, "2", Line: 55, Col: 21>
+<PUNCTUATOR, ",", Line: 55, Col: 22>
+<INTEGER_LITERAL, "3", Line: 55, Col: 24>
+<PUNCTUATOR, ",", Line: 55, Col: 25>
+<INTEGER_LITERAL, "4", Line: 55, Col: 27>
+<PUNCTUATOR, ",", Line: 55, Col: 28>
+<INTEGER_LITERAL, "5", Line: 55, Col: 30>
+<PUNCTUATOR, "]", Line: 55, Col: 31>
+<PUNCTUATOR, ";", Line: 55, Col: 32>
+<IDENTIFIER, "Tuple_example", Line: 56, Col: 1>
+<OPERATOR, "=", Line: 56, Col: 15>
+<PUNCTUATOR, "(", Line: 56, Col: 17>
+<INTEGER_LITERAL, "10", Line: 56, Col: 18>
+<PUNCTUATOR, ",", Line: 56, Col: 20>
+<INTEGER_LITERAL, "20", Line: 56, Col: 22>
+<PUNCTUATOR, ",", Line: 56, Col: 24>
+<INTEGER_LITERAL, "30", Line: 56, Col: 26>
+<PUNCTUATOR, ")", Line: 56, Col: 28>
+<PUNCTUATOR, ";", Line: 56, Col: 29>
+<IDENTIFIER, "Block_example", Line: 57, Col: 1>
+<OPERATOR, "=", Line: 57, Col: 15>
+<PUNCTUATOR, "{", Line: 57, Col: 17>
+<IDENTIFIER, "Int_a", Line: 57, Col: 19>
+<OPERATOR, "=", Line: 57, Col: 25>
+<INTEGER_LITERAL, "1", Line: 57, Col: 27>
+<PUNCTUATOR, ";", Line: 57, Col: 28>
+<IDENTIFIER, "Int_b", Line: 57, Col: 30>
+<OPERATOR, "=", Line: 57, Col: 36>
+<INTEGER_LITERAL, "2", Line: 57, Col: 38>
+<PUNCTUATOR, ";", Line: 57, Col: 39>
+<PUNCTUATOR, "}", Line: 57, Col: 41>
+<PUNCTUATOR, ";", Line: 57, Col: 42>
+<IDENTIFIER, "Punctuator_test", Line: 59, Col: 1>
+<OPERATOR, "=", Line: 59, Col: 17>
+<PUNCTUATOR, ";", Line: 59, Col: 19>
+<IDENTIFIER, "Colon_test", Line: 60, Col: 1>
+<OPERATOR, "=", Line: 60, Col: 12>
+<PUNCTUATOR, ":", Line: 60, Col: 14>
+<IDENTIFIER, "Dot_test", Line: 61, Col: 1>
+<OPERATOR, "=", Line: 61, Col: 10>
+<PUNCTUATOR, ".", Line: 61, Col: 12>
+
+SYMBOL TABLE:
+Int_x | IDENTIFIER | line: 8 | freq: 10
+Float_a | IDENTIFIER | line: 9 | freq: 2
+Float_b | IDENTIFIER | line: 10 | freq: 1
+Float_c | IDENTIFIER | line: 11 | freq: 1
+Float_d | IDENTIFIER | line: 12 | freq: 1
+Boolean_flag1 | IDENTIFIER | line: 13 | freq: 2
+Boolean_flag2 | IDENTIFIER | line: 14 | freq: 1
+Result | IDENTIFIER | line: 16 | freq: 1
+Valid_identifier_123 | IDENTIFIER | line: 17 | freq: 1
+Test | IDENTIFIER | line: 18 | freq: 1
+Condition_check | IDENTIFIER | line: 22 | freq: 1
+Loop_counter | IDENTIFIER | line: 24 | freq: 7
+Comparison1 | IDENTIFIER | line: 32 | freq: 1
+Comparison2 | IDENTIFIER | line: 33 | freq: 1
+Comparison3 | IDENTIFIER | line: 34 | freq: 1
+Comparison4 | IDENTIFIER | line: 35 | freq: 1
+Comparison5 | IDENTIFIER | line: 36 | freq: 1
+Comparison6 | IDENTIFIER | line: 37 | freq: 1
+Logic1 | IDENTIFIER | line: 39 | freq: 1
+Logic2 | IDENTIFIER | line: 40 | freq: 1
+Logic3 | IDENTIFIER | line: 41 | freq: 1
+Arithmetic1 | IDENTIFIER | line: 43 | freq: 1
+Arithmetic2 | IDENTIFIER | line: 44 | freq: 1
+Arithmetic3 | IDENTIFIER | line: 45 | freq: 1
+Arithmetic4 | IDENTIFIER | line: 46 | freq: 1
+Arithmetic5 | IDENTIFIER | line: 47 | freq: 1
+Arithmetic6 | IDENTIFIER | line: 48 | freq: 1
+String_test | IDENTIFIER | line: 50 | freq: 1
+Char_test | IDENTIFIER | line: 51 | freq: 1
+String_escape | IDENTIFIER | line: 52 | freq: 1
+Char_escape | IDENTIFIER | line: 53 | freq: 1
+Array_example | IDENTIFIER | line: 55 | freq: 1
+Tuple_example | IDENTIFIER | line: 56 | freq: 1
+Block_example | IDENTIFIER | line: 57 | freq: 1
+Int_a | IDENTIFIER | line: 57 | freq: 1
+Int_b | IDENTIFIER | line: 57 | freq: 1
+Punctuator_test | IDENTIFIER | line: 59 | freq: 1
+Colon_test | IDENTIFIER | line: 60 | freq: 1
+Dot_test | IDENTIFIER | line: 61 | freq: 1
+
+LEXICAL ERRORS:
+No lexical errors found.
+
+------------------------------------------------------------------------------------------
+
+==========================================================================================
+READING FILE: test2.lang
+==========================================================================================
+
+========== STATISTICS ==========
+Total tokens: 52
+Identifiers: 14
+Keywords: 0
+Boolean literals: 2
+Operators: 16
+Punctuators: 14
+Single-line comments removed: 1
+Multi-line comments removed: 0
+Lines processed: 11
+================================
+
+SCANNED TOKENS:
+<SINGLE_LINE_COMMENT, "## Test file 2: Complex expressions", Line: 1, Col: 1>
+<IDENTIFIER, "Result", Line: 3, Col: 1>
+<OPERATOR, "=", Line: 3, Col: 8>
+<IDENTIFIER, "Count", Line: 3, Col: 10>
+<OPERATOR, "+", Line: 3, Col: 16>
+<INTEGER_LITERAL, "10", Line: 3, Col: 18>
+<OPERATOR, "*", Line: 3, Col: 21>
+<IDENTIFIER, "Value", Line: 3, Col: 23>
+<PUNCTUATOR, ";", Line: 3, Col: 28>
+<IDENTIFIER, "Average", Line: 4, Col: 1>
+<OPERATOR, "=", Line: 4, Col: 9>
+<PUNCTUATOR, "(", Line: 4, Col: 11>
+<IDENTIFIER, "Sum", Line: 4, Col: 13>
+<OPERATOR, "/", Line: 4, Col: 17>
+<IDENTIFIER, "Counter", Line: 4, Col: 19>
+<PUNCTUATOR, ")", Line: 4, Col: 27>
+<OPERATOR, "+", Line: 4, Col: 29>
+<FLOAT_LITERAL, "3.14", Line: 4, Col: 31>
+<PUNCTUATOR, ";", Line: 4, Col: 35>
+<OPERATOR, "=", Line: 5, Col: 9>
+<BOOLEAN_LITERAL, "true", Line: 5, Col: 11>
+<OPERATOR, "&&", Line: 5, Col: 16>
+<PUNCTUATOR, "(", Line: 5, Col: 19>
+<IDENTIFIER, "Num", Line: 5, Col: 21>
+<OPERATOR, ">=", Line: 5, Col: 25>
+<INTEGER_LITERAL, "5", Line: 5, Col: 28>
+<PUNCTUATOR, ")", Line: 5, Col: 30>
+<PUNCTUATOR, ";", Line: 5, Col: 31>
+<PUNCTUATOR, "(", Line: 6, Col: 6>
+<IDENTIFIER, "Counter", Line: 6, Col: 8>
+<OPERATOR, "++", Line: 6, Col: 16>
+<PUNCTUATOR, ")", Line: 6, Col: 19>
+<PUNCTUATOR, "{", Line: 6, Col: 21>
+<IDENTIFIER, "Output", Line: 7, Col: 3>
+<OPERATOR, "=", Line: 7, Col: 10>
+<IDENTIFIER, "Input1", Line: 7, Col: 12>
+<OPERATOR, "+", Line: 7, Col: 19>
+<IDENTIFIER, "Input2", Line: 7, Col: 21>
+<PUNCTUATOR, ";", Line: 7, Col: 27>
+<PUNCTUATOR, "}", Line: 8, Col: 1>
+<IDENTIFIER, "X", Line: 9, Col: 1>
+<OPERATOR, "=", Line: 9, Col: 3>
+<INTEGER_LITERAL, "100", Line: 9, Col: 5>
+<OPERATOR, "%", Line: 9, Col: 9>
+<INTEGER_LITERAL, "3", Line: 9, Col: 11>
+<PUNCTUATOR, ";", Line: 9, Col: 12>
+<IDENTIFIER, "Flag", Line: 10, Col: 1>
+<OPERATOR, "=", Line: 10, Col: 6>
+<BOOLEAN_LITERAL, "false", Line: 10, Col: 8>
+<OPERATOR, "||", Line: 10, Col: 14>
+<IDENTIFIER, "Result", Line: 10, Col: 17>
+<PUNCTUATOR, ";", Line: 10, Col: 23>
+
+SYMBOL TABLE:
+Result | IDENTIFIER | line: 3 | freq: 2
+Count | IDENTIFIER | line: 3 | freq: 1
+Value | IDENTIFIER | line: 3 | freq: 1
+Average | IDENTIFIER | line: 4 | freq: 1
+Sum | IDENTIFIER | line: 4 | freq: 1
+Counter | IDENTIFIER | line: 4 | freq: 2
+Num | IDENTIFIER | line: 5 | freq: 1
+Output | IDENTIFIER | line: 7 | freq: 1
+Input1 | IDENTIFIER | line: 7 | freq: 1
+Input2 | IDENTIFIER | line: 7 | freq: 1
+X | IDENTIFIER | line: 9 | freq: 1
+Flag | IDENTIFIER | line: 10 | freq: 1
+
+LEXICAL ERRORS:
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 5    | Column: 1    | Lexeme: 'isValid'            | Reason: Identifier 'isValid' starts with lowercase 'i' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 6    | Column: 1    | Lexeme: 'loop'               | Reason: Identifier 'loop' starts with lowercase 'l' — must start with uppercase letter A-Z
+
+------------------------------------------------------------------------------------------
+
+==========================================================================================
+READING FILE: test3.lang
+==========================================================================================
+
+========== STATISTICS ==========
+Total tokens: 36
+Identifiers: 8
+Keywords: 0
+Boolean literals: 0
+Operators: 9
+Punctuators: 9
+Single-line comments removed: 1
+Multi-line comments removed: 0
+Lines processed: 12
+================================
+
+SCANNED TOKENS:
+<SINGLE_LINE_COMMENT, "## Test file 3: String and character literals with escape sequences", Line: 1, Col: 1>
+<IDENTIFIER, "Name", Line: 3, Col: 1>
+<OPERATOR, "=", Line: 3, Col: 6>
+<STRING_LITERAL, ""Hello World"", Line: 3, Col: 8>
+<PUNCTUATOR, ";", Line: 3, Col: 21>
+<IDENTIFIER, "Message", Line: 4, Col: 1>
+<OPERATOR, "=", Line: 4, Col: 9>
+<STRING_LITERAL, ""Line1\nLine2\tTabbed"", Line: 4, Col: 11>
+<PUNCTUATOR, ";", Line: 4, Col: 33>
+<IDENTIFIER, "Quote", Line: 5, Col: 1>
+<OPERATOR, "=", Line: 5, Col: 7>
+<STRING_LITERAL, ""He said \"Hello\""", Line: 5, Col: 9>
+<PUNCTUATOR, ";", Line: 5, Col: 28>
+<IDENTIFIER, "Path", Line: 6, Col: 1>
+<OPERATOR, "=", Line: 6, Col: 6>
+<STRING_LITERAL, ""C:\\Users\\Test"", Line: 6, Col: 8>
+<PUNCTUATOR, ";", Line: 6, Col: 25>
+<IDENTIFIER, "Character", Line: 7, Col: 1>
+<OPERATOR, "=", Line: 7, Col: 11>
+<CHAR_LITERAL, "'A'", Line: 7, Col: 13>
+<PUNCTUATOR, ";", Line: 7, Col: 16>
+<IDENTIFIER, "Newline", Line: 8, Col: 1>
+<OPERATOR, "=", Line: 8, Col: 9>
+<CHAR_LITERAL, "'\n'", Line: 8, Col: 11>
+<PUNCTUATOR, ";", Line: 8, Col: 15>
+<IDENTIFIER, "Tab", Line: 9, Col: 1>
+<OPERATOR, "=", Line: 9, Col: 5>
+<CHAR_LITERAL, "'\t'", Line: 9, Col: 7>
+<PUNCTUATOR, ";", Line: 9, Col: 11>
+<IDENTIFIER, "Backslash", Line: 10, Col: 1>
+<OPERATOR, "=", Line: 10, Col: 11>
+<CHAR_LITERAL, "'\\'", Line: 10, Col: 13>
+<PUNCTUATOR, ";", Line: 10, Col: 17>
+<OPERATOR, "=", Line: 11, Col: 13>
+<CHAR_LITERAL, "'\''", Line: 11, Col: 15>
+<PUNCTUATOR, ";", Line: 11, Col: 19>
+
+SYMBOL TABLE:
+Name | IDENTIFIER | line: 3 | freq: 1
+Message | IDENTIFIER | line: 4 | freq: 1
+Quote | IDENTIFIER | line: 5 | freq: 1
+Path | IDENTIFIER | line: 6 | freq: 1
+Character | IDENTIFIER | line: 7 | freq: 1
+Newline | IDENTIFIER | line: 8 | freq: 1
+Tab | IDENTIFIER | line: 9 | freq: 1
+Backslash | IDENTIFIER | line: 10 | freq: 1
+
+LEXICAL ERRORS:
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 11   | Column: 1    | Lexeme: 'SingleQuote'        | Reason: Identifier 'SingleQuote' contains uppercase letter 'Q' at position 7 — only lowercase letters, digits, and underscores allowed after first character
+
+------------------------------------------------------------------------------------------
+
+==========================================================================================
+READING FILE: test4.lang
+==========================================================================================
+
+========== STATISTICS ==========
+Total tokens: 25
+Identifiers: 2
+Keywords: 0
+Boolean literals: 0
+Operators: 9
+Punctuators: 8
+Single-line comments removed: 1
+Multi-line comments removed: 0
+Lines processed: 11
+================================
+
+SCANNED TOKENS:
+<SINGLE_LINE_COMMENT, "## Test file 4: Lexical errors", Line: 1, Col: 1>
+<IDENTIFIER, "Valid", Line: 3, Col: 1>
+<OPERATOR, "=", Line: 3, Col: 7>
+<INTEGER_LITERAL, "123", Line: 3, Col: 9>
+<PUNCTUATOR, ";", Line: 3, Col: 12>
+<OPERATOR, "=", Line: 4, Col: 10>
+<PUNCTUATOR, ";", Line: 4, Col: 20>
+<OPERATOR, "=", Line: 5, Col: 10>
+<IDENTIFIER, "Value", Line: 5, Col: 33>
+<OPERATOR, "=", Line: 5, Col: 39>
+<INTEGER_LITERAL, "100", Line: 5, Col: 41>
+<INTEGER_LITERAL, "50", Line: 5, Col: 47>
+<PUNCTUATOR, ";", Line: 5, Col: 49>
+<OPERATOR, "=", Line: 6, Col: 10>
+<PUNCTUATOR, ";", Line: 6, Col: 25>
+<OPERATOR, "=", Line: 7, Col: 50>
+<INTEGER_LITERAL, "5", Line: 7, Col: 52>
+<PUNCTUATOR, ";", Line: 7, Col: 53>
+<OPERATOR, "=", Line: 8, Col: 9>
+<INTEGER_LITERAL, "500", Line: 8, Col: 12>
+<PUNCTUATOR, ";", Line: 8, Col: 15>
+<OPERATOR, "=", Line: 9, Col: 12>
+<PUNCTUATOR, ";", Line: 9, Col: 17>
+<OPERATOR, "=", Line: 10, Col: 20>
+<PUNCTUATOR, ";", Line: 10, Col: 26>
+
+SYMBOL TABLE:
+Valid | IDENTIFIER | line: 3 | freq: 1
+Value | IDENTIFIER | line: 5 | freq: 1
+
+LEXICAL ERRORS:
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 4    | Column: 1    | Lexeme: 'invalid1'           | Reason: Identifier 'invalid1' starts with lowercase 'i' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: MALFORMED_LITERAL      | Line: 4    | Column: 12   | Lexeme: '12.34.56'           | Reason: Float literal '12.34.56' contains multiple decimal points
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 5    | Column: 1    | Lexeme: 'invalid2'           | Reason: Identifier 'invalid2' starts with lowercase 'i' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: MALFORMED_LITERAL      | Line: 5    | Column: 12   | Lexeme: '"unterminated string' | Reason: Unterminated string literal — missing closing '"' before newline
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 32   | Lexeme: '"'                  | Reason: Unrecognized character '"'
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 5    | Column: 45   | Lexeme: '@'                  | Reason: Unrecognized character '@'
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 6    | Column: 1    | Lexeme: 'invalid3'           | Reason: Identifier 'invalid3' starts with lowercase 'i' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 6    | Column: 12   | Lexeme: 'lowercase_var'      | Reason: Identifier 'lowercase_var' starts with lowercase 'l' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 7    | Column: 1    | Lexeme: 'VeryLongIdentifierThatExceedsThirtyOneCharacters' | Reason: Identifier 'VeryLongIdentifierThatExceedsThirtyOneCharacters' exceeds maximum length of 31 characters (found 48)
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 8    | Column: 1    | Lexeme: 'BadChar'            | Reason: Identifier 'BadChar' contains uppercase letter 'C' at position 4 — only lowercase letters, digits, and underscores allowed after first character
+[LEXICAL ERROR] Type: INVALID_CHARACTER      | Line: 8    | Column: 11   | Lexeme: '$'                  | Reason: Unrecognized character '$'
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 9    | Column: 1    | Lexeme: 'incomplete'         | Reason: Identifier 'incomplete' starts with lowercase 'i' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: MALFORMED_LITERAL      | Line: 9    | Column: 14   | Lexeme: '42.'                | Reason: Number '42.' ends with decimal point — must have digits after '.'
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 10   | Column: 1    | Lexeme: 'number_with_dollar' | Reason: Identifier 'number_with_dollar' starts with lowercase 'n' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: MALFORMED_LITERAL      | Line: 10   | Column: 22   | Lexeme: '123$'               | Reason: Invalid character '$' attached to number literal
+
+------------------------------------------------------------------------------------------
+
+==========================================================================================
+READING FILE: test5.lang
+==========================================================================================
+
+========== STATISTICS ==========
+Total tokens: 27
+Identifiers: 7
+Keywords: 0
+Boolean literals: 0
+Operators: 6
+Punctuators: 4
+Single-line comments removed: 2
+Multi-line comments removed: 5
+Lines processed: 35
+================================
+
+SCANNED TOKENS:
+<SINGLE_LINE_COMMENT, "## Single-line comment example", Line: 1, Col: 1>
+<IDENTIFIER, "Count", Line: 2, Col: 1>
+<OPERATOR, "=", Line: 2, Col: 7>
+<INTEGER_LITERAL, "10", Line: 2, Col: 9>
+<PUNCTUATOR, ";", Line: 2, Col: 11>
+<SINGLE_LINE_COMMENT, "## Another single-line comment", Line: 4, Col: 1>
+<IDENTIFIER, "Result", Line: 5, Col: 1>
+<OPERATOR, "=", Line: 5, Col: 8>
+<IDENTIFIER, "Count", Line: 5, Col: 10>
+<OPERATOR, "+", Line: 5, Col: 16>
+<INTEGER_LITERAL, "5", Line: 5, Col: 18>
+<PUNCTUATOR, ";", Line: 5, Col: 19>
+<MULTI_LINE_COMMENT, "#* Multi-line comment
+   spanning multiple lines
+   with various content *#", Line: 7, Col: 1>
+<IDENTIFIER, "Value", Line: 11, Col: 1>
+<OPERATOR, "=", Line: 11, Col: 7>
+<FLOAT_LITERAL, "3.14", Line: 11, Col: 9>
+<PUNCTUATOR, ";", Line: 11, Col: 13>
+<MULTI_LINE_COMMENT, "#* Nested comment example
+   Outer comment start
+   #* Inner nested comment
+      with extra content
+   *#
+   Outer comment end *#", Line: 13, Col: 1>
+<MULTI_LINE_COMMENT, "#* Another nested test
+   Start of outer
+   #* Nested level 1
+      #* Nested level 2
+         Deep content
+      *#
+   End of level 1 *#
+End of outer *#", Line: 20, Col: 1>
+<MULTI_LINE_COMMENT, "#* Comment with special chars: @$%^& *#", Line: 29, Col: 1>
+<IDENTIFIER, "Final", Line: 31, Col: 1>
+<OPERATOR, "=", Line: 31, Col: 7>
+<IDENTIFIER, "Result", Line: 31, Col: 9>
+<OPERATOR, "*", Line: 31, Col: 16>
+<IDENTIFIER, "Value", Line: 31, Col: 18>
+<PUNCTUATOR, ";", Line: 31, Col: 23>
+<MULTI_LINE_COMMENT, "#* Unterminated multi-line comment test
+this would cause an error
+", Line: 33, Col: 1>
+
+SYMBOL TABLE:
+Count | IDENTIFIER | line: 2 | freq: 2
+Result | IDENTIFIER | line: 5 | freq: 2
+Value | IDENTIFIER | line: 11 | freq: 2
+Final | IDENTIFIER | line: 31 | freq: 1
+
+LEXICAL ERRORS:
+[LEXICAL ERROR] Type: UNCLOSED_COMMENT       | Line: 33   | Column: 1    | Lexeme: '#* Unterminated multi-line comment test
+this would cause an error
+' | Reason: Multi-line comment opened with '#*' but never closed with '*#'
+
+------------------------------------------------------------------------------------------
+
+All files processed.

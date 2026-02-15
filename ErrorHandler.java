@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.*;
 
 public class ErrorHandler {
@@ -36,7 +37,7 @@ public class ErrorHandler {
     private List<LexicalError> errors = new ArrayList<>();
 
     // ------------------------------------------------------------------ //
-    //  Registration methods — called from Main.java during token loop     //
+    //  Registration methods                                                //
     // ------------------------------------------------------------------ //
 
     /** Any ERROR token from the scanner is classified here */
@@ -87,7 +88,7 @@ public class ErrorHandler {
     //  Classification helpers                                              //
     // ------------------------------------------------------------------ //
 
-    private boolean isInvalidCharacter(String s) {
+    public boolean isInvalidCharacter(String s) {
         // Single characters that are simply not in the alphabet
         if (s.length() == 1) {
             char c = s.charAt(0);
@@ -97,13 +98,12 @@ public class ErrorHandler {
         return false;
     }
 
-    private boolean isMalformedNumber(String s) {
+    public boolean isMalformedNumber(String s) {
         // More than one decimal point
         long dots = s.chars().filter(c -> c == '.').count();
         if (dots > 1) return true;
         // Starts/ends with a decimal point
         if (s.startsWith(".") || s.endsWith(".")) return true;
-        // Digits only check fails (contains a letter that isn't 'e'/'E' exponent)
         return false;
     }
 
@@ -115,35 +115,76 @@ public class ErrorHandler {
         return s.startsWith("'") && !s.endsWith("'");
     }
 
-    private boolean isInvalidIdentifier(String s) {
-        if (s.isEmpty()) return false;
-        char first = s.charAt(0);
-        // Starts with lowercase or digit
-        if (Character.isLowerCase(first) || Character.isDigit(first)) return true;
-        // Exceeds 31 characters
-        if (s.length() > 31) return true;
-        // Contains invalid characters
-        for (char c : s.toCharArray()) {
-            if (!Character.isLowerCase(c) && !Character.isUpperCase(c)
-                    && !Character.isDigit(c) && c != '_') return true;
+   public boolean isInvalidIdentifier(String s) {
+    if (s == null || s.isEmpty()) return true;
+    
+    char first = s.charAt(0);
+    
+    // MUST start with uppercase letter [A-Z]
+    if (first < 'A' || first > 'Z') {
+        return true;
+    }
+    
+    // Maximum 31 characters
+    if (s.length() > 31) {
+        return true;
+    }
+    
+    // Remaining characters must be lowercase [a-z], digits [0-9], or underscore [_]
+    // NOT uppercase letters
+    for (int i = 1; i < s.length(); i++) {
+        char c = s.charAt(i);
+        if (!((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '_')) {
+            return true;
         }
-        return false;
     }
+    
+    return false;
+}
 
-    private String buildIdentifierReason(String s) {
-        if (s.isEmpty()) return "Empty identifier";
-        char first = s.charAt(0);
-        if (Character.isDigit(first))
-            return "Identifier '" + s + "' starts with a digit — must start with uppercase A-Z";
-        if (Character.isLowerCase(first))
-            return "Identifier '" + s + "' starts with lowercase — must start with uppercase A-Z";
-        if (s.length() > 31)
-            return "Identifier '" + s + "' exceeds maximum length of 31 characters (found " + s.length() + ")";
-        return "Identifier '" + s + "' contains invalid characters";
+private String buildIdentifierReason(String s) {
+    if (s == null || s.isEmpty()) return "Empty identifier";
+    
+    char first = s.charAt(0);
+    
+    // Check if starts with digit
+    if (Character.isDigit(first)) {
+        return "Identifier '" + s + "' starts with digit '" + first + "' — must start with uppercase letter A-Z";
     }
-
+    
+    // Check if starts with lowercase
+    if (first >= 'a' && first <= 'z') {
+        return "Identifier '" + s + "' starts with lowercase '" + first + "' — must start with uppercase letter A-Z";
+    }
+    
+    // Check if starts with non-letter
+    if (first < 'A' || first > 'Z') {
+        return "Identifier '" + s + "' starts with invalid character '" + first + "' — must start with uppercase letter A-Z";
+    }
+    
+    // Check length
+    if (s.length() > 31) {
+        return "Identifier '" + s + "' exceeds maximum length of 31 characters (found " + s.length() + ")";
+    }
+    
+    // Check for invalid characters after first character (like uppercase letters)
+    for (int i = 1; i < s.length(); i++) {
+        char c = s.charAt(i);
+        if (!((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '_')) {
+            if (c >= 'A' && c <= 'Z') {
+                return "Identifier '" + s + "' contains uppercase letter '" + c + "' at position " + (i + 1) + 
+                       " — only lowercase letters, digits, and underscores allowed after first character";
+            } else {
+                return "Identifier '" + s + "' contains invalid character '" + c + "' at position " + (i + 1) + 
+                       " — only lowercase letters, digits, and underscores allowed after first character";
+            }
+        }
+    }
+    
+    return "Invalid identifier '" + s + "'";
+}
     // ------------------------------------------------------------------ //
-    //  Internal add + deduplication                                        //
+    //  Internal add                                                        //
     // ------------------------------------------------------------------ //
 
     private void addError(ErrorType type, int line, int col, String lexeme, String reason) {
@@ -169,4 +210,17 @@ public class ErrorHandler {
     public boolean hasErrors()        { return !errors.isEmpty(); }
     public int     errorCount()       { return errors.size(); }
     public List<LexicalError> getErrors() { return Collections.unmodifiableList(errors); }
+    // ------------------------
+// Write errors to file
+// ------------------------
+public void write(PrintWriter writer) {
+    if (errors.isEmpty()) {
+        writer.println("No lexical errors found.");
+    } else {
+        for (LexicalError e : errors) {
+            writer.println(e.toString());
+        }
+    }
+}
+
 }

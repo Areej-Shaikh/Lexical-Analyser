@@ -1,0 +1,11 @@
+## Test file 4: Lexical errors
+
+Valid = 123;
+invalid1 = 12.34.56;
+invalid2 = "unterminated string
+Value = 100 @ 50;
+invalid3 = lowercase_var;
+VeryLongIdentifierThatExceedsThirtyOneCharacters = 5;
+BadChar = $500;
+incomplete = 42.;
+number_with_dollar = 123$;

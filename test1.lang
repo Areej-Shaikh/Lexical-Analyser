@@ -1,0 +1,19 @@
+## Example program using all tokens
+
+#* Multi-line comment example
+   This is a multi-line comment
+   #* Nested multi-line comment *#
+*#
+Int x = 0;
+Float a = 3.146666; 
+Float b = 3.14;
+Float c = +3.12;
+Float d = 2.0E-3;
+Boolean flag1 = true;
+Boolean flag2 = false;
+x @ y;
+IF (x > 10 && flag1) {
+    x++;
+    y--;
+    z += 1;
+}

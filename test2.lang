@@ -1,0 +1,10 @@
+## Test file 2: Complex expressions
+
+Result = Count + 10 * Value;
+Average = ( Sum / Counter ) + 3.14;
+isValid = true && ( Num >= 5 );
+loop ( Counter ++ ) {
+  Output = Input1 + Input2;
+}
+X = 100 % 3;
+Flag = false || Result;
