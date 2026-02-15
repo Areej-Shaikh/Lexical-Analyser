@@ -8,4 +8,4 @@ Character = 'A';
 Newline = '\n';
 Tab = '\t';
 Backslash = '\\';
-SingleQuote = '\'';
+Singlequote = '\'';

@@ -2,8 +2,8 @@
 
 Result = Count + 10 * Value;
 Average = ( Sum / Counter ) + 3.14;
-isValid = true && ( Num >= 5 );
-loop ( Counter ++ ) {
+Isvalid = true && ( Num >= 5 );
+Loop ( Counter ++ ) {
   Output = Input1 + Input2;
 }
 X = 100 % 3;

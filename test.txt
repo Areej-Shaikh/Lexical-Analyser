@@ -1,6 +1,7 @@
 Int x = 42;
 float y = 3.14;
 boolean flag = true;
+boolean flag = false;
 if (x > 10 && flag) {
     y = y * 2;
 }
