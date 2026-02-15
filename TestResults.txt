@@ -21,10 +21,10 @@ SCANNED TOKENS:
    This is a multi-line comment
    #* Nested multi-line comment *#
 *#", Line: 3, Col: 1>
-<IDENTIFIER, "Int", Line: 7, Col: 1>
-<OPERATOR, "=", Line: 7, Col: 7>
-<INTEGER_LITERAL, "0", Line: 7, Col: 9>
-<PUNCTUATOR, ";", Line: 7, Col: 10>
+<IDENTIFIER, "In0t", Line: 7, Col: 1>
+<OPERATOR, "=", Line: 7, Col: 8>
+<INTEGER_LITERAL, "0", Line: 7, Col: 10>
+<PUNCTUATOR, ";", Line: 7, Col: 11>
 <IDENTIFIER, "Float", Line: 8, Col: 1>
 <OPERATOR, "=", Line: 8, Col: 9>
 <FLOAT_LITERAL, "3.146666", Line: 8, Col: 11>
@@ -65,12 +65,12 @@ SCANNED TOKENS:
 <PUNCTUATOR, "}", Line: 18, Col: 1>
 
 SYMBOL TABLE:
-Int | IDENTIFIER | line: 7 | freq: 1
+In0t | IDENTIFIER | line: 7 | freq: 1
 Float | IDENTIFIER | line: 8 | freq: 4
 Boolean | IDENTIFIER | line: 12 | freq: 2
 
 LEXICAL ERRORS:
-[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 7    | Column: 5    | Lexeme: 'x'                  | Reason: Identifier 'x' starts with lowercase 'x' — must start with uppercase letter A-Z
+[LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 7    | Column: 6    | Lexeme: 'x'                  | Reason: Identifier 'x' starts with lowercase 'x' — must start with uppercase letter A-Z
 [LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 8    | Column: 7    | Lexeme: 'a'                  | Reason: Identifier 'a' starts with lowercase 'a' — must start with uppercase letter A-Z
 [LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 9    | Column: 7    | Lexeme: 'b'                  | Reason: Identifier 'b' starts with lowercase 'b' — must start with uppercase letter A-Z
 [LEXICAL ERROR] Type: INVALID_IDENTIFIER     | Line: 10   | Column: 7    | Lexeme: 'c'                  | Reason: Identifier 'c' starts with lowercase 'c' — must start with uppercase letter A-Z

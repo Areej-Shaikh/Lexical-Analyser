@@ -4,7 +4,7 @@
    This is a multi-line comment
    #* Nested multi-line comment *#
 *#
-Int x = 0;
+In0t x = 0;
 Float a = 3.146666; 
 Float b = 3.14;
 Float c = +3.12;
