@@ -1,0 +1,76 @@
+
+LANGUAGE GRAMMAR
+
+Identifiers
+---------------
+Regex: [A-Z][a-z0-9_]{0,30}  
+Rules: Must start with uppercase letter (A-Z), followed by lowercase letters, digits, or underscores. Max length 31.  
+Valid: Count, Variable_name, X, TotalSum2024  
+Invalid: count, Variable, 2Count, myVariable
+
+Integer Literals
+-------------------
+Regex: [+-]?[0-9]+  
+Valid: 42, +100, -567, 0  
+Invalid: 12.34, 1,000
+
+Floating-Point Literals
+--------------------------
+Regex: [+-]?[0-9]+\.[0-9]{1,6}([eE][+-]?[0-9]+)?  
+Valid: 3.14, +2.5, -0.123456, 1.5e10, 2.0E-3  
+Invalid: 3., .14, 1.2345678 (more than 6 decimals)
+
+String Literals
+------------------
+Regex: "([^"\\\n]|\\["\\ntr])*"  
+Escape sequences: \", \\, \n, \t, \r  
+Valid: "Hello", "Line\nBreak", "Quote: \""  
+Invalid: "Unclosed string, "Invalid\q"
+
+Character Literals
+---------------------
+Regex: '([^'\\\n]|\\['\\ntr])'  
+Valid: 'a', '\n', '\\', '\''  
+Invalid: 'ab', '\q', ' 
+
+Boolean Literals
+-------------------
+Regex: (true|false) (case-sensitive)  
+Valid: true, false  
+Invalid: True, FALSE, tru
+
+Operators
+-------------
+Arithmetic: (\*\*|[+\-*/%])  
+Valid: +, -, *, /, %, **  
+Relational: (==|!=|<=|>=|<|>)  
+Logical: (&&|\|\||!)  
+Assignment: (\+=|-=|\*=|/=|=)  
+Inc/Dec: (\+\+|--)
+
+Punctuators
+----------------
+Regex: [(){}\[\],;:]  
+Characters: ( ) { } [ ] , ; :  
+
+Comments
+-------------
+Single-line: ##[^\n]*  
+Multi-line: #\*([^*]|\*+[^*#])*\*+#  
+
+Whitespace
+---------------
+Regex: [ \t\r\n]+ (skip but track line numbers)
+
+Example Code
+---------------
+## Single line comment
+#* Multi-line comment
+with #* nested comment *# *#
+
+Count = 10;
+Value = 3.14;
+Flag = true;
+Name = "Areej";
+Letter = 'A';
+Total += Count ** 2;
