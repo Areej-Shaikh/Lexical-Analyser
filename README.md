@@ -1,6 +1,6 @@
 # Lexical Analyzer
 
-This project implements a lexical analyzer for a custom language with the `.lang` file extension using both a **manual DFA-based scanner in Java** and a **JFlex-generated scanner**. The analyzer tokenizes source code into identifiers, literals, operators, punctuators, and comments, and reports lexical errors such as invalid identifiers and malformed literals.
+This project implements a lexical analyzer for a language with the `.lang` file extension using both a **manual DFA-based scanner in Java** and a **JFlex scanner**. This lexical analyzer tokenizes source code into identifiers, literals, operators, punctuators, and comments, and reports lexical errors such as invalid identifiers.
 
 ## Language Name and File Extension
 
@@ -23,19 +23,16 @@ The following reserved keywords are implemented in OurLang and are recognized by
 - true  
 - false  
 
-These keywords represent boolean literals and are used for logical expressions in the language. They cannot be used as identifiers.
+These keywords represent boolean literals and are used for logical expressions in the language. They cannot be used as identifiers. All other words are treated as Identifiers
 
 ## Identifier Rules and Examples
 
-Identifiers in OurLang are used to name variables and must follow these rules:
+Identifiers are used to name variables and must follow these rules:
 
 **Rules:**
 - An identifier must start with an uppercase letter (A–Z).
 - It may be followed by digits, lowercase letters, or underscores (0-9, a–z, _).
 - Identifiers cannot exceed 31 characters in length.
-- Reserved keywords (`true`, `false`) cannot be used as identifiers.
-
-**Regex:** [A-Z][a-zA-Z]{0,30}
 
 **Valid Identifiers:**
 - Count
@@ -64,7 +61,7 @@ Literals represent fixed values in OurLang. The lexical analyzer supports the fo
 - Numbers with a decimal point and optional exponent.
 - Up to 6 digits allowed after the decimal point.
 - Optional `+` or `-` sign.
-- Exponent format: `e` or `E` followed by optional sign and digits.
+- Exponent format: `e` or `E` followed by sign and digits.
 - Examples:
 3.14,
 -0.123456,
@@ -88,7 +85,6 @@ false
 ### 5. String Literals
 - Sequence of characters enclosed in double quotes `" "`.
 - Supports escape sequences: `\n`, `\t`, `\\`, `\"`.
-- Can span multiple lines.
 - Examples:
 "Hello, World!",
 "Line1\nLine2\tTabbed",
@@ -124,16 +120,15 @@ OurLang supports both **single-character** and **multi-character operators**. Th
 - `*=`  Multiply and assign  
 - `/=`  Divide and assign  
 
-### Operator Precedence (from highest to lowest)
-1. `**` (Exponentiation)  
-2. `*`, `/`, `%` (Multiplication, Division, Modulus)  
-3. `+`, `-` (Addition, Subtraction)  
+### Operator Precedence
+1. `**` (Exponent)  
+2. `*`, `/`, `%` (Mul, Div, Mod)  
+3. `+`, `-` (Add, Sub)  
 4. `==`, `!=`, `<`, `<=`, `>`, `>=` (Comparison)  
-5. `&&` (Logical AND)  
-6. `||` (Logical OR)  
-7. `=` (Assignment)  
-8. `+=`, `-=`, `*=`, `/=(assignment)  
-9. `++`, `--` (Increment/Decrement)  
+5. `&&` (AND)  
+6. `||` (OR)  
+7. `=`, `+=`, `-=`, `*=`, `/=(assignment)  
+8. `++`, `--` (Inc/Dec)  
 
 ## Comments
 
@@ -151,7 +146,7 @@ Example:
 #* This is a multi-line comment
    in multiple lines
 *#
-
+Invalid comments (not properly closed) are classified as invalid comments.
 ### 3. Nested Multi-Line Comments
 Multi-line comments can be nested within another multi-line comment.
 
@@ -163,55 +158,48 @@ Example:
 
 ## Sample Programs
 ### Sample Program 1
-```lang
-
-# Variables and assignment
+```
 Count = 10;
 Value = 3.14;
 Total = Count + Value;
 
-# Increment and Decrement
 Count++;
 Value--;
 
-# Compound assignment
 Total += 5;
 Result *= 2;
 
-# Boolean literals
 Flag1 = true;
 Flag2 = false;
 ```
 
 ### Sample Program 2
 ```
-# Single-line comment
+# Single line comment
 Result = 100;
 
-# Multi-line comment
-#* This is a multi-line comment
-   It spans several lines
+# Multi line comment
+#* This is a comment
+   in multiple lines
 *#
 
-# Nested multi-line comment
-#* Outer comment
-   #* Inner comment *#
-   End of outer comment
-*#
+# Nested multi line comment
+#* Comment 1 start
+   #* Comment 2 Start *#
+   Comment 1 end
+Comments 2 end *#
 ```
 ### Sample Program 3
-```lang
+```
 # Strings and Characters
-Name = "Hello, World!";
-Message = "Line1\nLine2\tTabbed";
-Quote = "He said \"Hello\"";
+a = "Hello World";
+b = "Line1\nLine2\tTabbed";
+c = "He said \"Hello\"";
 
-# Character literals
-CharA = 'A';
-Newline = '\n';
+d = 'A';
+e = '\n';
 Tab = '\t';
 Backslash = '\\';
-SingleQuote = '\'';
 
 ```
 ## Compilation and Execution Instructions
@@ -226,7 +214,7 @@ javac ManualScanner.java Token.java SymbolTable.java ErrorHandler.java
 java ManualScanner
 
 
-### To use the JFlex-generated scanner, generate the scanner first using:
+### To use the JFlex scanner, generate the scanner first using:
 
 -jflex Scanner.jflex
 
