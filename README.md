@@ -217,20 +217,20 @@ SingleQuote = '\'';
 ## Compilation and Execution Instructions
 - Ensure you have Java 17 or later installed.
 
-# To compile the manual scanner:
+### To compile the manual scanner:
 
 javac ManualScanner.java Token.java SymbolTable.java ErrorHandler.java
 
-# To run the scanner:
+### To run the scanner:
 
 java ManualScanner
 
 
-# To use the JFlex-generated scanner, generate the scanner first using:
+### To use the JFlex-generated scanner, generate the scanner first using:
 
 -jflex Scanner.jflex
 
-then
+#### then
 
 javac Scanner.java Token.java SymbolTable.java ErrorHandler.java
 java Scanner
