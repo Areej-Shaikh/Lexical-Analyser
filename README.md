@@ -162,44 +162,76 @@ Example:
 *#
 
 ## Sample Programs
-### Single-line Comment Example
+### Sample Program 1
 ```lang
-Count = 10;
-Result = Count + 5;
-Value = 3.14;
-Final = Result * Value;
 
-### Boolean Literals and Operators
+# Variables and assignment
+Count = 10;
+Value = 3.14;
+Total = Count + Value;
+
+# Increment and Decrement
+Count++;
+Value--;
+
+# Compound assignment
+Total += 5;
+Result *= 2;
+
+# Boolean literals
 Flag1 = true;
 Flag2 = false;
-X = 100 % 3;
-Y = X + 5;
+```
 
-### Multi-Line and Nested Comments
-#* Multi-line comment
-   spanning multiple lines
-   with nested comment #* Inner comment *#
+### Sample Program 2
+```
+# Single-line comment
+Result = 100;
+
+# Multi-line comment
+#* This is a multi-line comment
+   It spans several lines
 *#
-Valid = 123;
 
+# Nested multi-line comment
+#* Outer comment
+   #* Inner comment *#
+   End of outer comment
+*#
+```
+### Sample Program 3
+```lang
+# Strings and Characters
+Name = "Hello, World!";
+Message = "Line1\nLine2\tTabbed";
+Quote = "He said \"Hello\"";
+
+# Character literals
+CharA = 'A';
+Newline = '\n';
+Tab = '\t';
+Backslash = '\\';
+SingleQuote = '\'';
+
+```
 ## Compilation and Execution Instructions
-Ensure you have Java 17 or later installed.
+- Ensure you have Java 17 or later installed.
 
-To compile the manual scanner:
+# To compile the manual scanner:
 
 javac ManualScanner.java Token.java SymbolTable.java ErrorHandler.java
 
-
-To run the scanner:
+# To run the scanner:
 
 java ManualScanner
 
 
-The program reads all .lang files in the project folder and writes results to TestResults.txt.
+# To use the JFlex-generated scanner, generate the scanner first using:
 
-To use the JFlex-generated scanner, generate the scanner first using:
+-jflex Scanner.jflex
 
-jflex Scanner.jflex
+then
+
 javac Scanner.java Token.java SymbolTable.java ErrorHandler.java
 java Scanner
 
