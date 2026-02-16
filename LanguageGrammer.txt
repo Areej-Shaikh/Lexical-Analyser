@@ -1,76 +1,68 @@
+Language Grammer
 
-LANGUAGE GRAMMAR
 
-Identifiers
----------------
-Regex: [A-Z][a-z0-9_]{0,30}  
-Rules: Must start with uppercase letter (A-Z), followed by lowercase letters, digits, or underscores. Max length 31.  
-Valid: Count, Variable_name, X, TotalSum2024  
-Invalid: count, Variable, 2Count, myVariable
+<stmt> ::= <declaration>
+         | <assignment>
+         | <if_stmt>
+         | <print_stmt>
+         | <block>
+         | <comments>
 
-Integer Literals
--------------------
-Regex: [+-]?[0-9]+  
-Valid: 42, +100, -567, 0  
-Invalid: 12.34, 1,000
 
-Floating-Point Literals
---------------------------
-Regex: [+-]?[0-9]+\.[0-9]{1,6}([eE][+-]?[0-9]+)?  
-Valid: 3.14, +2.5, -0.123456, 1.5e10, 2.0E-3  
-Invalid: 3., .14, 1.2345678 (more than 6 decimals)
+<declaration> ::= <type> <identifier> ";"
+                | <type> <identifier> "=" <expr> ";"
 
-String Literals
-------------------
-Regex: "([^"\\\n]|\\["\\ntr])*"  
-Escape sequences: \", \\, \n, \t, \r  
-Valid: "Hello", "Line\nBreak", "Quote: \""  
-Invalid: "Unclosed string, "Invalid\q"
 
-Character Literals
----------------------
-Regex: '([^'\\\n]|\\['\\ntr])'  
-Valid: 'a', '\n', '\\', '\''  
-Invalid: 'ab', '\q', ' 
+<type> ::= "int" | "float" | "bool" | "string" | "char"
 
-Boolean Literals
--------------------
-Regex: (true|false) (case-sensitive)  
-Valid: true, false  
-Invalid: True, FALSE, tru
 
-Operators
--------------
-Arithmetic: (\*\*|[+\-*/%])  
-Valid: +, -, *, /, %, **  
-Relational: (==|!=|<=|>=|<|>)  
-Logical: (&&|\|\||!)  
-Assignment: (\+=|-=|\*=|/=|=)  
-Inc/Dec: (\+\+|--)
+<assignment> ::= <identifier> "=" <expr> ";"
 
-Punctuators
-----------------
-Regex: [(){}\[\],;:]  
-Characters: ( ) { } [ ] , ; :  
 
-Comments
--------------
-Single-line: ##[^\n]*  
-Multi-line: #\*([^*]|\*+[^*#])*\*+#  
+<condition> ::= <expr> <rel_op> <expr> | <bool_literal>
 
-Whitespace
----------------
-Regex: [ \t\r\n]+ (skip but track line numbers)
+<literal> ::= <int_literal> | <float_literal> | <string_literal>
+            | <char_literal> | <bool_literal>
 
-Example Code
----------------
-## Single line comment
-#* Multi-line comment
-with #* nested comment *# *#
 
-Count = 10;
-Value = 3.14;
-Flag = true;
-Name = "Areej";
-Letter = 'A';
-Total += Count ** 2;
+<identifier> ::= <upper> { <lower> | <digit> | "_" }
+
+
+<int_literal> ::= <digit> { <digit> }
+
+
+<float_literal> ::= <int_literal> "." <digit> { <digit> } [ <exp> ]
+
+
+<exp> ::= ("e"|"E") ("+"|"-") <digit> { <digit> }
+
+
+<string_literal> ::= "\"" { <string_char> } "\""
+
+
+<char_literal> ::= "'" <char_char> "'"
+
+
+<bool_literal> ::= "true" | "false"
+
+
+<string_char> ::= any_character_except_"\"_and_"\\"_and_newline
+                | "\\" ("n"|"t"|"r"|"\""|"\")
+
+
+<char_char> ::= any_character_except_"'"_and_"\\"_and_newline
+              | "\\" ("n"|"t"|"r"|"'"|"\")
+
+
+<rel_op> ::= "==" | "!=" | "<" | ">" | "<=" | ">="
+
+
+<comment> ::= "##" <text>
+            | "#*" <text> "*#"
+
+
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+<uppercase> ::= "A" | "B" | ... | "Z"
+
+<lowercase> ::= "a" | "b" | ... | "z"
