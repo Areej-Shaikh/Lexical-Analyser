@@ -1,0 +1,19 @@
+======================================================================
+TOKEN OUTPUT
+======================================================================
+<SINGLE_LINE_COMMENT, "## Single-line comment example", Line: 1, Col: 1>
+<MULTI_LINE_COMMENT, Lines 4-6, "#* Multi-line comment    spanning multiple lin...">
+<MULTI_LINE_COMMENT, Lines 9-14, "#* Nested comment example    Outer comment sta...">
+<MULTI_LINE_COMMENT, Lines 16-23, "#* Another nested test    Start of outer    #...">
+<MULTI_LINE_COMMENT, Lines 25-25, "#* Comment with special chars: @$%^& *#">
+
+======================================================================
+SYMBOL TABLE
+======================================================================
+Name                 Type            First Line      Frequency
+----------------------------------------------------------------------
+======================================================================
+
+========== LEXICAL ERRORS (1) ==========
+[LEXICAL ERROR] Type: UNCLOSED_COMMENT       | Line: 27   | Column: 1    | Lexeme: 'comment'            | Reason: Multi-line comment was never closed with '*#'
+==========================================

@@ -557,8 +557,7 @@ private Token token(TokenType type, String lexeme) {
 }
 
 private Token token(TokenType type, String lexeme, int endLine) {
-    // For multi-line tokens, use commentStartLine as start line and endLine as end line
-    return new Token(type, lexeme, commentStartLine, 1, endLine);
+    return new Token(type, lexeme, yyline + 1, yycolumn + 1, endLine);
 }
 
 

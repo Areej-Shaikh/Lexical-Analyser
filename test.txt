@@ -1,12 +1,27 @@
-Int x = 42;
-float y = 3.14;
-boolean flag = true;
-if (x > 10 && flag) {
-    y = y * 2;
-}
-x++;
-y--;
-"Hello, world!"
-'a'
-## this is a comment
-@@ndnj
+## Single-line comment example
+
+
+#* Multi-line comment
+   spanning multiple lines
+   with various content *#
+
+
+#* Nested comment example
+   Outer comment start
+   #* Inner nested comment
+      with extra content
+   *#
+   Outer comment end *#
+
+#* Another nested test
+   Start of outer
+   #* Nested level 1
+      #* Nested level 2
+         Deep content
+      *#
+   End of level 1 *#
+End of outer *#
+
+#* Comment with special chars: @$%^& *#
+
+#* Unterminated multi-line comment test

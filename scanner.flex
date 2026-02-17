@@ -1,5 +1,4 @@
-import java.io.FileReader;
-import java.io.IOException;
+/* User code section */
 
 %%
 
@@ -10,76 +9,181 @@ import java.io.IOException;
 %type Token
 %public
 
+%state COMMENT
+%state STRING
+%state CHARLIT
+
 %{
+
+private int commentDepth = 0;
+private int commentStartLine = 0;
+private StringBuilder stringBuffer = new StringBuilder();
+private StringBuilder commentBuffer = new StringBuilder();
+private boolean eofProcessed = false;
+
 private Token token(TokenType type, String lexeme) {
     return new Token(type, lexeme, yyline + 1, yycolumn + 1);
 }
+
+private Token token(TokenType type, String lexeme, int endLine) {
+    // For multi-line tokens, use commentStartLine as start line and endLine as end line
+    return new Token(type, lexeme, commentStartLine, 1, endLine);
+}
+
 %}
 
 /* ---------- MACROS ---------- */
-DIGIT       = [0-9]
-INT         = {DIGIT}+
-FLOAT       = {DIGIT}+"."{DIGIT}{1,6}([eE][+-]?{DIGIT}+)?
-ID          = [A-Z][a-z0-9_]{0,30}
-WS          = [ \t\r\n]+
 
-/* Keywords */
-KEYWORD     = start|finish|loop|condition|declare|output|input|function|return|break|continue|else
+DIGIT     = [0-9]
+INT       = {DIGIT}+
+FLOAT     = {DIGIT}+"."{DIGIT}{1,6}([eE][+-]?{DIGIT}+)?
+ID        = [A-Z][a-z0-9_]{0,30}
+CAMELCASE = [A-Z][a-z]+[A-Z][a-zA-Z0-9_]*
+WS        = [ \t\r\n]+
 
-/* Boolean */
-BOOLEAN     = true|false
+KEYWORD   = start|finish|loop|condition|declare|output|input|function|return|break|continue|else|if
+UPPER_KEYWORD = START|FINISH|LOOP|CONDITION|DECLARE|OUTPUT|INPUT|FUNCTION|RETURN|BREAK|CONTINUE|ELSE|IF
+BOOLEAN   = true|false
 
-/* Operators */
-OP_MULTI    = "**"|"=="|"!="|"<="|">="|"&&"|"||"|"++"|"--"|"+="|"-="|"*="|"/="
-OP_SINGLE   = [+\-*/%=!<>]
+OP_MULTI  = "**"|"=="|"!="|"<="|">="|"&&"|"||"|"++"|"--"|"+="|"-="|"*="|"/="
+OP_SINGLE = [+\-*/%=!<>]
 
-/* Punctuators */
-PUNCT       = [(){}\[\],;:]
+PUNCT     = [(){}\[\],;:]
 
-/* Comments */
-SLCOMMENT   = "##"[^\n]*
-MLCOMMENT   = "#*"([^*]|\*+[^*#])*"*#"
+INVALID_ID = ([a-z][a-zA-Z0-9_]*)|([0-9]+[a-zA-Z][a-zA-Z0-9_]*)
 
 %%
 
-/* ---------- 1. MULTI-LINE COMMENTS ---------- */
-{MLCOMMENT}   { return token(TokenType.SINGLE_LINE_COMMENT, yytext()); }
+/* ---------- PRIORITY 1: MULTI-LINE NESTED COMMENTS ---------- */
+<YYINITIAL> "#*" {
+    commentStartLine = yyline + 1;
+    commentDepth = 1;
+    commentBuffer.setLength(0);
+    commentBuffer.append(yytext());
+    yybegin(COMMENT);
+}
 
-/* ---------- 2. SINGLE-LINE COMMENTS ---------- */
-{SLCOMMENT}   { return token(TokenType.SINGLE_LINE_COMMENT, yytext()); }
+<COMMENT> "#*" { 
+    commentDepth++;
+    commentBuffer.append(yytext());
+}
 
-/* ---------- 3. MULTI-CHARACTER OPERATORS ---------- */
-{OP_MULTI}    { return token(TokenType.OPERATOR, yytext()); }
+<COMMENT> "*#" {
+    commentDepth--;
+    commentBuffer.append(yytext());
+    if (commentDepth == 0) {
+        int endLine = yyline + 1;
+        yybegin(YYINITIAL);
+        return token(TokenType.MULTI_LINE_COMMENT, commentBuffer.toString(), endLine);
+    }
+}
 
-/* ---------- 4. KEYWORDS ---------- */
-{KEYWORD}     { return token(TokenType.IDENTIFIER, yytext()); }
+<COMMENT> <<EOF>> {
+    if (eofProcessed) {
+        eofProcessed = false;
+        return null;
+    }
+    eofProcessed = true;
+    yybegin(YYINITIAL);
+    int endLine = yyline + 1;
+    return token(TokenType.ERROR, "Unterminated multi-line comment", endLine);
+}
 
-/* ---------- 5. BOOLEAN ---------- */
-{BOOLEAN}     { return token(TokenType.BOOLEAN_EXPRESSION, yytext()); }
+<COMMENT> [^] { 
+    commentBuffer.append(yytext());
+}
 
-/* ---------- 6. IDENTIFIERS ---------- */
-{ID}          { return token(TokenType.IDENTIFIER, yytext()); }
 
-/* ---------- 7. FLOAT BEFORE INT ---------- */
-{FLOAT}       { return token(TokenType.FLOAT_LITERAL, yytext()); }
+/* ---------- PRIORITY 2: SINGLE-LINE COMMENT ---------- */
+<YYINITIAL> "##"[^\r\n]* {
+    return token(TokenType.SINGLE_LINE_COMMENT, yytext());
+}
 
-/* ---------- 8. INTEGER ---------- */
-{INT}         { return token(TokenType.INTEGER_LITERAL, yytext()); }
+/* ---------- PRIORITY 3: MULTI-CHAR OPERATORS ---------- */
+<YYINITIAL> {OP_MULTI}  { return token(TokenType.OPERATOR, yytext()); }
 
-/* ---------- 9. STRING LITERALS ---------- */
-\u0022([^\u0022\\\n]|\\[\u0022\\ntr])*\u0022   { return token(TokenType.IDENTIFIER, yytext()); }
+/* ---------- PRIORITY 4: UNRECOGNIZED CHARACTERS ---------- */
+<YYINITIAL> \"[^\"\r\n]* {
+    return token(TokenType.ERROR, "Unterminated string literal");
+}
+<YYINITIAL> \$[a-zA-Z0-9_]+ { return token(TokenType.ERROR, yytext()); }
+<YYINITIAL> [\"\$]      { return token(TokenType.ERROR, yytext()); }
 
-/* ---------- 10. CHAR LITERALS ---------- */
-\'([^\'\\\n]|\\[\'\\ntr])\'                    { return token(TokenType.IDENTIFIER, yytext()); }
+/* ---------- PRIORITY 4: UPPERCASE KEYWORDS (ERROR) ---------- */
+<YYINITIAL> {UPPER_KEYWORD} { return token(TokenType.ERROR, yytext()); }
 
-/* ---------- 11. SINGLE-CHARACTER OPERATORS ---------- */
-{OP_SINGLE}   { return token(TokenType.OPERATOR, yytext()); }
+/* ---------- PRIORITY 5: KEYWORDS ---------- */
+<YYINITIAL> {KEYWORD}   { return token(TokenType.IDENTIFIER, yytext()); }
 
-/* ---------- 12. PUNCTUATORS ---------- */
-{PUNCT}       { return token(TokenType.PUNCTUATOR, yytext()); }
+/* ---------- PRIORITY 6: BOOLEAN ---------- */
+<YYINITIAL> {BOOLEAN}   { return token(TokenType.BOOLEAN_EXPRESSION, yytext()); }
 
-/* ---------- 13. WHITESPACE ---------- */
-{WS}          { /* skip */ }
+/* ---------- PRIORITY 7: IDENTIFIER ---------- */
+<YYINITIAL> [A-Z][a-zA-Z0-9_]{31}[a-zA-Z0-9_]* { return token(TokenType.ERROR, yytext()); }
+<YYINITIAL> {CAMELCASE} { return token(TokenType.ERROR, yytext()); }
+<YYINITIAL> {ID}        { return token(TokenType.IDENTIFIER, yytext()); }
 
-/* ---------- INVALID TOKENS ---------- */
-.             { return token(TokenType.ERROR, yytext()); }
+/* ---------- PRIORITY 8: MALFORMED DECIMALS (e.g., 3.14.14) ---------- */
+<YYINITIAL> [+-]?{DIGIT}+"."{DIGIT}{1,6}([eE][+-]?{DIGIT}+)?("."[0-9]+)+ {
+    return token(TokenType.ERROR, yytext());
+}
+
+/* ---------- PRIORITY 9: FLOAT (signed and unsigned) ---------- */
+<YYINITIAL> [+-]{DIGIT}+"."{DIGIT}{1,6}([eE][+-]?{DIGIT}+)? {
+    return token(TokenType.FLOAT_LITERAL, yytext());
+}
+<YYINITIAL> {FLOAT}     { return token(TokenType.FLOAT_LITERAL, yytext()); }
+
+/* ---------- PRIORITY 10: INTEGER (signed and unsigned) ---------- */
+<YYINITIAL> [+-]{DIGIT}+ { return token(TokenType.INTEGER_LITERAL, yytext()); }
+<YYINITIAL> {INT}        { return token(TokenType.INTEGER_LITERAL, yytext()); }
+
+/* ---------- PRIORITY 10: CHARACTER LITERALS (complete pattern match) ---------- */
+<YYINITIAL> \'([^\'\\]|\\[\'\\ntr])\' {
+    return token(TokenType.CHAR_LITERAL, yytext());
+}
+
+/* Malformed/Unclosed character literals fallback */
+<YYINITIAL> \' {
+    stringBuffer.setLength(0);
+    yybegin(CHARLIT);
+}
+
+<CHARLIT> \\[\'\\ntr] {
+    stringBuffer.append(yytext());
+    /* wait for closing quote */
+}
+
+<CHARLIT> \' {
+    yybegin(YYINITIAL);
+    return token(TokenType.ERROR, "MALFORMED_CHAR_LITERAL:" + stringBuffer.toString());
+}
+
+<CHARLIT> [\r\n] {
+    yybegin(YYINITIAL);
+    return token(TokenType.ERROR, "Unclosed character literal");
+}
+
+<CHARLIT> <<EOF>> {
+    yybegin(YYINITIAL);
+    return token(TokenType.ERROR, "Unclosed character literal");
+}
+
+<CHARLIT> [^] {
+    stringBuffer.append(yytext());
+}
+
+/* ---------- PRIORITY 13: SINGLE-CHAR OPERATORS ---------- */
+<YYINITIAL> {OP_SINGLE} { return token(TokenType.OPERATOR, yytext()); }
+
+/* ---------- PRIORITY 14: PUNCTUATORS ---------- */
+<YYINITIAL> {PUNCT}     { return token(TokenType.PUNCTUATOR, yytext()); }
+
+/* ---------- PRIORITY 15: WHITESPACE ---------- */
+<YYINITIAL> {WS}        { /* skip */ }
+
+/* ---------- PRIORITY 16: INVALID IDENTIFIERS (whole word as one error) ---------- */
+<YYINITIAL> {INVALID_ID} { return token(TokenType.ERROR, yytext()); }
+
+/* ---------- PRIORITY 17: ERROR ---------- */
+<YYINITIAL> .           { return token(TokenType.ERROR, yytext()); }

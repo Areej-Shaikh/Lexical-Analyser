@@ -21,6 +21,11 @@ public enum TokenType {
 
   BOOLEAN_EXPRESSION,
 
-  ERROR
+  ERROR,
+
+  STRING_LITERAL,
+CHAR_LITERAL,
+    MULTI_LINE_COMMENT,
+
 
 }

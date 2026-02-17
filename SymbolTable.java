@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class SymbolTable {
-    private static class SymbolEntry {
+    public static class SymbolEntry {
         String name;
         String type;
         int firstOccurrence;
@@ -16,7 +16,7 @@ public class SymbolTable {
 
         @Override
         public String toString() {
-            return String.format("Name: %-15s Type: %-10s First Occurrence: %-5d Frequency: %d", 
+            return String.format("Name: %-15s Type: %-10s First Occurrence: %-5d Frequency: %d",
                 name, type, firstOccurrence, frequency);
         }
     }
@@ -27,7 +27,6 @@ public class SymbolTable {
         this.symbols = new LinkedHashMap<>();
     }
 
-    // Insert or update symbol
     public void insert(String name, String type, int line) {
         if (symbols.containsKey(name)) {
             symbols.get(name).frequency++;
@@ -36,37 +35,36 @@ public class SymbolTable {
         }
     }
 
-    // Lookup symbol
     public SymbolEntry lookup(String name) {
         return symbols.get(name);
     }
 
-    // Check if symbol exists
     public boolean contains(String name) {
         return symbols.containsKey(name);
     }
 
-    // Display symbol table
+    public Collection<SymbolEntry> getAllSymbols() {
+        return symbols.values();
+    }
+
     public void display() {
         System.out.println("\n" + "=".repeat(70));
         System.out.println("SYMBOL TABLE");
         System.out.println("=".repeat(70));
-        
+
         if (symbols.isEmpty()) {
             System.out.println("(Empty - No identifiers found)");
         } else {
             System.out.printf("%-20s %-15s %-15s %-10s\n", "Name", "Type", "First Line", "Frequency");
             System.out.println("-".repeat(70));
-            
             for (SymbolEntry entry : symbols.values()) {
-                System.out.printf("%-20s %-15s %-15d %-10d\n", 
+                System.out.printf("%-20s %-15s %-15d %-10d\n",
                     entry.name, entry.type, entry.firstOccurrence, entry.frequency);
             }
         }
         System.out.println("=".repeat(70) + "\n");
     }
 
-    // Get symbol count
     public int getSize() {
         return symbols.size();
     }

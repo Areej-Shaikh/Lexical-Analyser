@@ -1,0 +1,11 @@
+## Single line comment
+
+#* Simple multi-line comment
+   on multiple lines
+   with content *#
+
+#* Nested outer
+   #* Nested inner *#
+   End outer *#
+
+#* Unclosed comment
