@@ -16,7 +16,6 @@ public class Main {
                 tokens.add(token);
             }
 
-            // Merge consecutive ERROR tokens on same line into one word
             List<Token> merged = new ArrayList<>();
             int i = 0;
             while (i < tokens.size()) {
@@ -41,7 +40,7 @@ public class Main {
                 }
             }
 
-            // Process all tokens for symbol table and error handler
+            // Process all tokens 
             for (Token t : merged) {
                 if (t.getType() == TokenType.IDENTIFIER) {
                     symbolTable.insert(t.getLexeme(), "IDENTIFIER", t.getLine());
@@ -50,23 +49,19 @@ public class Main {
                 }
             }
 
-            // Build output
             StringBuilder output = new StringBuilder();
 
-            output.append("======================================================================\n");
             output.append("TOKEN OUTPUT\n");
-            output.append("======================================================================\n");
             for (Token t : merged) {
                 if (t.getType() == TokenType.ERROR) {
                     continue;
                 }
                 if (t.getType() == TokenType.MULTI_LINE_COMMENT) {
-                    // Display multi-line comments with their span
                     String text = t.getLexeme();
                     if (text.length() > 50) {
                         text = text.substring(0, 47) + "...";
                     }
-                    // Replace newlines with spaces for display
+                    // Replace newlines with spaces 
                     text = text.replace("\n", " ").replace("\r", "");
                     output.append(String.format("<%s, Lines %d-%d, \"%s\">%n", 
                         t.getType(), t.getLine(), t.getEndLine(), text));

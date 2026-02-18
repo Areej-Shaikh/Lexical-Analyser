@@ -26,13 +26,12 @@ private Token token(TokenType type, String lexeme) {
 }
 
 private Token token(TokenType type, String lexeme, int endLine) {
-    // For multi-line tokens, use commentStartLine as start line and endLine as end line
     return new Token(type, lexeme, commentStartLine, 1, endLine);
 }
 
 %}
 
-/* ---------- MACROS ---------- */
+/* MACROS */
 
 DIGIT     = [0-9]
 INT       = {DIGIT}+
@@ -54,7 +53,7 @@ INVALID_ID = ([a-z][a-zA-Z0-9_]*)|([0-9]+[a-zA-Z][a-zA-Z0-9_]*)
 
 %%
 
-/* ---------- PRIORITY 1: MULTI-LINE NESTED COMMENTS ---------- */
+/* MULTI-LINE NESTED COMMENTS  */
 <YYINITIAL> "#*" {
     commentStartLine = yyline + 1;
     commentDepth = 1;
@@ -63,7 +62,7 @@ INVALID_ID = ([a-z][a-zA-Z0-9_]*)|([0-9]+[a-zA-Z][a-zA-Z0-9_]*)
     yybegin(COMMENT);
 }
 
-<COMMENT> "#*" { 
+<COMMENT> "#*" {
     commentDepth++;
     commentBuffer.append(yytext());
 }
@@ -89,61 +88,97 @@ INVALID_ID = ([a-z][a-zA-Z0-9_]*)|([0-9]+[a-zA-Z][a-zA-Z0-9_]*)
     return token(TokenType.ERROR, "Unterminated multi-line comment", endLine);
 }
 
-<COMMENT> [^] { 
+<COMMENT> [^] {
     commentBuffer.append(yytext());
 }
 
-
-/* ---------- PRIORITY 2: SINGLE-LINE COMMENT ---------- */
+/* SINGLE-LINE COMMENT  */
 <YYINITIAL> "##"[^\r\n]* {
     return token(TokenType.SINGLE_LINE_COMMENT, yytext());
 }
 
-/* ---------- PRIORITY 3: MULTI-CHAR OPERATORS ---------- */
+/*  MULTI-CHAR OPERATORS*/
 <YYINITIAL> {OP_MULTI}  { return token(TokenType.OPERATOR, yytext()); }
 
-/* ---------- PRIORITY 4: UNRECOGNIZED CHARACTERS ---------- */
-<YYINITIAL> \"[^\"\r\n]* {
+
+<YYINITIAL> \" {
+    stringBuffer.setLength(0);
+    stringBuffer.append("\"");
+    yybegin(STRING);
+}
+
+/* ---------- STRING CONTENT ---------- */
+/* Simple escaped characters */
+<STRING> \\\"       { stringBuffer.append("\""); }
+<STRING> \\\\       { stringBuffer.append("\\"); }
+<STRING> \\n        { stringBuffer.append("\n"); }
+<STRING> \\t        { stringBuffer.append("\t"); }
+<STRING> \\r        { stringBuffer.append("\r"); }
+
+/* Unicode escape */
+<STRING> \\u[0-9a-fA-F]{4} { stringBuffer.append(yytext()); }
+
+/* Any character except " or \ or newline */
+<STRING> [^\x22\\\n\r]   { stringBuffer.append(yytext()); }
+
+/* Unterminated string on newline */
+<STRING> [\r\n] {
+    yybegin(YYINITIAL);
     return token(TokenType.ERROR, "Unterminated string literal");
 }
+
+/* ---------- STRING CLOSE ---------- */
+<STRING> \" {
+    stringBuffer.append("\"");
+    yybegin(YYINITIAL);
+    return token(TokenType.STRING_LITERAL, stringBuffer.toString());
+}
+
+/* ---------- EOF BEFORE CLOSE ---------- */
+<STRING> <<EOF>> {
+    yybegin(YYINITIAL);
+    return token(TokenType.ERROR, "Unterminated string literal");
+}
+
+/* UNRECOGNIZED CHARACTERS */
 <YYINITIAL> \$[a-zA-Z0-9_]+ { return token(TokenType.ERROR, yytext()); }
 <YYINITIAL> [\"\$]      { return token(TokenType.ERROR, yytext()); }
 
-/* ---------- PRIORITY 4: UPPERCASE KEYWORDS (ERROR) ---------- */
+/* UPPERCASE KEYWORDS  */
 <YYINITIAL> {UPPER_KEYWORD} { return token(TokenType.ERROR, yytext()); }
 
-/* ---------- PRIORITY 5: KEYWORDS ---------- */
+/* KEYWORDS*/
 <YYINITIAL> {KEYWORD}   { return token(TokenType.IDENTIFIER, yytext()); }
 
-/* ---------- PRIORITY 6: BOOLEAN ---------- */
+/*  BOOLEAN  */
 <YYINITIAL> {BOOLEAN}   { return token(TokenType.BOOLEAN_EXPRESSION, yytext()); }
 
-/* ---------- PRIORITY 7: IDENTIFIER ---------- */
+/*  IDENTIFIER */
 <YYINITIAL> [A-Z][a-zA-Z0-9_]{31}[a-zA-Z0-9_]* { return token(TokenType.ERROR, yytext()); }
 <YYINITIAL> {CAMELCASE} { return token(TokenType.ERROR, yytext()); }
 <YYINITIAL> {ID}        { return token(TokenType.IDENTIFIER, yytext()); }
 
-/* ---------- PRIORITY 8: MALFORMED DECIMALS (e.g., 3.14.14) ---------- */
+/*  MALFORMED DECIMALS */
 <YYINITIAL> [+-]?{DIGIT}+"."{DIGIT}{1,6}([eE][+-]?{DIGIT}+)?("."[0-9]+)+ {
     return token(TokenType.ERROR, yytext());
 }
 
-/* ---------- PRIORITY 9: FLOAT (signed and unsigned) ---------- */
+/*  FLOAT  */
 <YYINITIAL> [+-]{DIGIT}+"."{DIGIT}{1,6}([eE][+-]?{DIGIT}+)? {
     return token(TokenType.FLOAT_LITERAL, yytext());
 }
 <YYINITIAL> {FLOAT}     { return token(TokenType.FLOAT_LITERAL, yytext()); }
 
-/* ---------- PRIORITY 10: INTEGER (signed and unsigned) ---------- */
+/*  INTEGER  */
 <YYINITIAL> [+-]{DIGIT}+ { return token(TokenType.INTEGER_LITERAL, yytext()); }
 <YYINITIAL> {INT}        { return token(TokenType.INTEGER_LITERAL, yytext()); }
 
-/* ---------- PRIORITY 10: CHARACTER LITERALS (complete pattern match) ---------- */
+/*CHARACTER LITERALS  */
 <YYINITIAL> \'([^\'\\]|\\[\'\\ntr])\' {
     return token(TokenType.CHAR_LITERAL, yytext());
 }
 
-/* Malformed/Unclosed character literals fallback */
+/* Malformed character literals */
 <YYINITIAL> \' {
     stringBuffer.setLength(0);
     yybegin(CHARLIT);
@@ -151,7 +186,6 @@ INVALID_ID = ([a-z][a-zA-Z0-9_]*)|([0-9]+[a-zA-Z][a-zA-Z0-9_]*)
 
 <CHARLIT> \\[\'\\ntr] {
     stringBuffer.append(yytext());
-    /* wait for closing quote */
 }
 
 <CHARLIT> \' {
@@ -173,17 +207,17 @@ INVALID_ID = ([a-z][a-zA-Z0-9_]*)|([0-9]+[a-zA-Z][a-zA-Z0-9_]*)
     stringBuffer.append(yytext());
 }
 
-/* ---------- PRIORITY 13: SINGLE-CHAR OPERATORS ---------- */
+/* SINGLE-CHAR OPERATORS  */
 <YYINITIAL> {OP_SINGLE} { return token(TokenType.OPERATOR, yytext()); }
 
-/* ---------- PRIORITY 14: PUNCTUATORS ---------- */
+/* PUNCTUATORS  */
 <YYINITIAL> {PUNCT}     { return token(TokenType.PUNCTUATOR, yytext()); }
 
-/* ---------- PRIORITY 15: WHITESPACE ---------- */
+/*  WHITESPACE  */
 <YYINITIAL> {WS}        { /* skip */ }
 
-/* ---------- PRIORITY 16: INVALID IDENTIFIERS (whole word as one error) ---------- */
+/* INVALID IDENTIFIERS  */
 <YYINITIAL> {INVALID_ID} { return token(TokenType.ERROR, yytext()); }
 
-/* ---------- PRIORITY 17: ERROR ---------- */
+/*  ERROR  */
 <YYINITIAL> .           { return token(TokenType.ERROR, yytext()); }

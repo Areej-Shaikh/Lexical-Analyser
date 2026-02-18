@@ -1,6 +1,4 @@
-======================================================================
 TOKEN OUTPUT
-======================================================================
 <SINGLE_LINE_COMMENT, "## Single-line comment example", Line: 1, Col: 1>
 <MULTI_LINE_COMMENT, Lines 4-6, "#* Multi-line comment    spanning multiple lin...">
 <MULTI_LINE_COMMENT, Lines 9-14, "#* Nested comment example    Outer comment sta...">

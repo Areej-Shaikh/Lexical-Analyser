@@ -40,21 +40,21 @@ public class ErrorHandler {
         int    line   = token.getLine();
         int    col    = token.getColumn();
 
-        // Check unclosed/unterminated comments first
+        // Check unclosed comments first
         if (lexeme.startsWith("Unclosed comment:") || lexeme.equals("Unterminated multi-line comment")) {
             addError(ErrorType.UNCLOSED_COMMENT, line, col, "comment",
                 "Multi-line comment was never closed with '*#'");
             return;
         }
 
-        // Check for unterminated string
+        // Check  unterminated string
         if (lexeme.equals("Unterminated string literal")) {
             addError(ErrorType.MALFORMED_LITERAL, line, col, lexeme,
                 "Unterminated string literal - missing closing '\"'");
             return;
         }
 
-        // Check malformed character literal
+        // Check malformed character 
         if (lexeme.startsWith("MALFORMED_CHAR_LITERAL:")) {
             String content = lexeme.substring("MALFORMED_CHAR_LITERAL:".length());
             addError(ErrorType.MALFORMED_LITERAL, line, col, "'" + content + "'",
@@ -62,14 +62,13 @@ public class ErrorHandler {
             return;
         }
 
-        // Check for uppercase keywords
+        // Check for uppercase 
         if (isUppercaseKeyword(lexeme)) {
             addError(ErrorType.INVALID_IDENTIFIER, line, col, lexeme,
                 "Keyword '" + lexeme + "' must be lowercase");
             return;
         }
 
-        // Check for camelCase identifiers
         if (isCamelCase(lexeme)) {
             addError(ErrorType.INVALID_IDENTIFIER, line, col, lexeme,
                 "Identifier '" + lexeme + "' uses camelCase - identifiers must use only lowercase letters, digits, and underscores after the first uppercase letter");
@@ -157,7 +156,7 @@ public class ErrorHandler {
     }
 
     private boolean isCamelCase(String s) {
-        // Matches pattern like: Uppercase followed by lowercase, then another Uppercase
+        // Matches pattern 
         if (s.length() < 3) return false;
         if (!Character.isUpperCase(s.charAt(0))) return false;
         
@@ -166,7 +165,7 @@ public class ErrorHandler {
             if (Character.isLowerCase(s.charAt(i))) {
                 hasLowerAfterFirst = true;
             } else if (hasLowerAfterFirst && Character.isUpperCase(s.charAt(i))) {
-                return true; // Found uppercase after lowercase - camelCase
+                return true; 
             }
         }
         return false;
